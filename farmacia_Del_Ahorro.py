@@ -2,6 +2,7 @@ import requests
 from lxml import html
 from datetime import datetime
 import re
+import os
 import time
 import random
 import pandas as pd
@@ -22,9 +23,10 @@ key_medicines = [
     'EDARBI', 'LOSARTAN', 'ATACAND', 'ALMETEC', 'APROVEL', 'AVAPRO', 'COZAAR', 'DIOVAN', 'LEGIONIS', 
     'TELARTEQ', 'TRANSENDIS', 'AVALIDE', 'HYZAAR', 'COAPROVEL', 
     'LOSAR', 'OPENVAS', 'EXFORGE', 'APROVASC', 'BICARTIAL', 'DUOALMETEC', 'MAXOPRESS', 
-    'PRADAXAR', 'PRADAXAR,', 'XARELTO', 'ELICUIS', 'CLEXANE', 'COUMADIN', 'SINTROM', 'FRAXIPARINE'
-]
+    'PRADAXAR', 'XARELTO', 'ELICUIS', 'CLEXANE', 'COUMADIN', 'SINTROM', 'FRAXIPARINE'
+] 
 key_medicines = [i.lower() for i in key_medicines]
+#key_medicines = ["bloqueador", "papilla", "electrolito", "jugo", "loratadina", "sildenafil", "crema humectante", "labello", "tinte", "repelente", "laminitas", "galleta"]
 today = datetime.today().strftime("%d/%m/%Y %H:%M:%S")
 session = requests.Session()
 headers = {
@@ -41,6 +43,13 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
 }
 
+def print_e(msg):
+    print(Fore.RED+ msg +Fore.RESET)
+
+
+def print_w(msg):
+    print(Fore.YELLOW+ msg +Fore.RESET)
+
 
 def timing_val(func):
     def wrapper(*arg, **kw):
@@ -48,17 +57,13 @@ def timing_val(func):
         func(*arg, **kw)
         t2 = time.time()
         segs = int(t2 - t1)
-        print(f"tardó {segs} segs...")
+        if segs > 60:
+            msg = f"tardó {segs/60} minutos..." 
+        else:
+            msg = f"tardó {segs} segs..." 
+        print(msg)
         return segs
     return wrapper
-
-
-def print_e(msg):
-    print(Fore.RED+ msg +Fore.RESET)
-
-
-def print_w(msg):
-    print(Fore.YELLOW+ msg +Fore.RESET)
 
 
 def normalizar(text: str) -> str:
@@ -228,15 +233,18 @@ def get_concentracion_from_description(desc_comer) -> list:
 
 
 def clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
-                          marca, price, max_price, promotion, today, detail_url):
-    
+                        marca, price, max_price, precio_descontado, descuento, promotion, 
+                        today, detail_url):  
+    """ Retorna un diccionario con la inf del producto. """
     medicine = medicine.strip().replace("\t","").replace("\n", "")
     descripcion = descripcion.strip().replace("\t","").replace("\n", "")
     marca = marca.strip().replace("\t","").replace("\n", "")
     price = price.strip().replace("\t","").replace("\n", "")
+    precio_descontado = precio_descontado.strip().replace("\t","").replace("\n", "")
     max_price = max_price.strip().replace("\t","").replace("\n", "")
     promotion = promotion.strip().replace("\t","").replace("\n", "")
-    return  {
+
+    product = {
         'medicamento': medicine,
         'descripcion': descripcion,
         'peso':peso, 
@@ -245,139 +253,126 @@ def clean_product_strings(medicine, descripcion, peso, presentacion, forma_farma
         'marca': marca,
         'price': price,
         'max_price': max_price,
-        'precio descontado': '',
-        'descuento': '',
+        'precio descontado': precio_descontado,
+        'descuento': descuento,
         'promotion': promotion,
-        'fuente':'Farmacias Guadalajara',
+        'fuente':'Farmacias San Pablo',
         'scrapping_day': today,
         'detail_url': detail_url,
     } 
+    return product
 
 
 @timing_val
 def main():
-    print("Obteniendo cookies")
-    response = session.get('https://www.farmaciasguadalajara.com/', headers=headers)
+    cant_words = len(key_medicines)
+    print("---Empieza proceso de recolección ---")
+    print(f"  {cant_words} medicinas para buscar")
 
+    print("Obteniendo cookies")
+    session.get('https://www.fahorro.com/', headers=headers)
+    
+    promos_per_image = {
+        "3_1_1.png": "Acumula 3 y llevate uno gratis",
+        "3_x_1.png": "3 x 1",
+        "2_x_75.png": "2 x 75",
+        "2_1_2.png": "Acumula 2 y llevate uno gratis",
+        "Group_1_4_.png": "Acumula 12 y llevate 4 gratis",
+        "50_off.png": "50% de descuento",
+        "25_off.png": "25% de descuento",
+        "2x42.png": "2x42",
+        "2x55.png": "2x55",
+        "3x60.png": "3x60",
+        "Label_70__1.png": "70% de descuento",
+        "4_1_2.png": "Acumula 4 y llevate 1 gratis",
+        "2_x_52_1.png": "2x52",
+        "40_off.png": "40% de descuento",
+        "15desc.png": "15% de desc",
+        "Label_2X_35.png": "label",
+        "2_x_25.png": "2x25",
+        "Label_2X_34.png": "2x34",
+        "Label_2X_36.png": "2x36",
+        "20desc.png": "20% de desc",
+        "Label_2x_30_2.png": "2x30",
+        "30_off.png": "30% de desc",
+        "3_x_50.png": "3x50",
+        "6_2_1.png": "acumula 6 y llevate 2 gratis"
+    }
+    
     #Itera las medicinas
     medicinas_sin_resultados = 0
     for medicine in key_medicines:
-        productos = []
         time.sleep(random.randint(4, 8))
         print(f"\nObteniendo productos para {medicine}")
 
-        #Obtiene número de coincidencias.
         params = {
-            'categoryId': '',
-            'storeId': '10151',
-            'searchType': '1001',
-            'catalogId': '10052',
-            'langId': '-24',
-            'sType': 'SimpleSearch',
-            'resultCatEntryType': '2',
-            'showResultsPage': 'true',
-            'searchSource': 'Q',
-            'pageView': '',
-            'beginIndex': '0',
-            'pageSize': '20',
-            'searchTerm': medicine,
+            'q': medicine,
+            'product_list_limit': '90',
         }
-        headers['referer'] = 'https://www.farmaciasguadalajara.com/'
-        response = session.get('https://www.farmaciasguadalajara.com/SearchDisplay', 
-                            params=params, headers=headers)
-        assert response.status_code == 200, "Falló en requests principal para obtener el número de resultados"
-
+        response = session.get('https://www.fahorro.com/catalogsearch/result/index/', params=params, headers=headers)
         html_source = html.fromstring(response.text)
-        #Busca el número de coincidencias(productos encontrados) dada la busqueda de la medicina
-        try:
-            coincidences = int(html_source.xpath('.//span[contains(@id,"searchTotalCount")]/text()')[0].split(" ")[0])
-        except:
-            #Sí no encuentra coincidencias puede deberse a que cuando hay un solo resultado en lugar
-            #de mandarte a la página de resultados te manda a la página del producto
-            try:
-                print("no se encontraron coincidencias, se busca redirección de producto unico.")
-                # el resultado de la respuesta es un html con una funcion de redirección.
-                #se extrae la url de dicha redirección y se visita 
-                redirect_text = html_source.xpath('//script[contains(text(),"Redirect")]/text()')[0]
-                redirect_url = redirect_text.split('Redirect(')[1].split('"')[3]
-                if "www.farmaciasguadalajara.com" not in redirect_url:
-                    print("ERROR No se encontró un redirect de producto unico")
-                    continue 
-                resp = session.get(redirect_url, headers=headers, timeout=20)
-                html_source = html.fromstring(resp.text)
-                detail_url = redirect_url
-                descripcion = html_source.xpath('//div[contains(@id,"productFull")]//h1[@id="fgProductName"]/text()')[0]
-                price = html_source.xpath('//div[contains(@id,"productFull")]//span[contains(@id,"offerPrice")]/text()')[0]
-                marca = ''
-                promotion = ''
-                try:
-                    max_price = html_source.xpath('//div[contains(@id,"productFull")]//span[contains(@id,"listPrice")]/text()')[0]
-                except:
-                    max_price = ""
-                peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
-                product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
-                                                marca, price, max_price, promotion, today, detail_url)
-                
-                productos.append(product)
-                coincidences = 1
-            except:
-                print("ERROR No se encontraron coincidencias ni redirecciones")
-                continue
-
-        print(f" Se encontraron {coincidences} coincidencias para {medicine}")
-        if coincidences == 0:
+        productos_tree =  html_source.xpath('//ol[contains(@class, "product-items")]/li')
+        cant_prods = len(productos_tree)
+        if cant_prods > 85:
+            print_e("Más de 85")
+        if cant_prods == 0:
             print_w("No se encotraron productos para esta medicina.")
             medicinas_sin_resultados += 1
             continue
+        
+        productos = []
+        for prod_tree in productos_tree:
+            descripcion = prod_tree.xpath('.//a[@class="product-item-link"]/text()')[0]
+            marca = ''
+            detail_url = prod_tree.xpath('.//a[@class="product-item-link"]/@href')[0] 
 
-        #Actualizo hedaers para /ProductListingView?
-        headers['x-requested-with'] = 'XMLHttpRequest'
-        headers['referer'] = 'https://www.farmaciasguadalajara.com/SearchDisplay'
-        for i in range(0,351, 50):
-            print("  Extrayendo productos...")
-
-            #Comrpobación para prueba
-            cant_prods = len(productos)
-            if cant_prods == 1:
-                break
-
-            # Trae lista de productos
-            begin_index = cant_prods
-            product_begin_index = cant_prods 
-            url = f'https://www.farmaciasguadalajara.com/ProductListingView?top_category2=&top_category3=&facet=&searchTermScope=&top_category4=&top_category5=&searchType=&filterFacet=&resultCatEntryType=2&sType=SimpleSearch&top_category=&gridPosition=&ddkey=ProductListingView&metaData=&ajaxStoreImageDir=%2Fwcsstore%2FFGSAS%2F&advancedSearch=&categoryId=&categoryFacetHierarchyPath=&searchTerm={medicine}&emsName=&filterTerm=&manufacturer=&resultsPerPage=80&disableProductCompare=ture&parent_category_rn=&catalogId=10052&langId=-24&enableSKUListView=false&storeId=10151&contentBeginIndex=0&beginIndex={begin_index}&productBeginIndex={product_begin_index}&orderBy=&pageSize=80&x_pageType=[Ljava.lang.String;@b32cc07a&x_noDropdown=true'
-            response = session.get(url=url, headers=headers,)
-
-            #Extrae producto y lo agrega a la lista
-            html_source = html.fromstring(response.text)
-            elements = html_source.xpath('//div[@class="product"]')
-            for element in elements:
-                detail_url = element.xpath('.//div[@class="product_info"]/div/a/@href')[0].strip()
-                descripcion = element.xpath('.//div[@class="product_info"]/div/a/text()')[1].strip().lower()
-                marca = element.xpath('.//div[@class="product_info"]/div/a/b/text()')[0].strip().lower()
-                price = element.xpath('.//div[@class="product_info"]//span[contains(@id,"offerPrice")]/text()')[0].strip()
-                try:
-                    max_price = element.xpath('.//div[@class="product_info"]//span[contains(@id,"listPrice")]/text()')[0].strip()
-                except:
-                    max_price = ""
-                try:
-                    promotion = element.xpath('.//div[contains(@class,"plp-promotion")]/span/text()')[0].strip()
-                except:
-                    promotion = ""
-                
-                peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
-                product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
-                                                marca, price, max_price, promotion, today, detail_url)
-                productos.append(product)
+            #Busca imagen con promoción, 
+            try:
+                image_url = prod_tree.xpath('.//div[contains(@style,"background:url")]/@style')[0].split("'")[1]
+                image_name = image_url.rsplit("/",1)[1]
+                imagenes = os.listdir('./images')
+                #si no está agregada se guarda la iamgen
+                if image_name not in imagenes:
+                    resp = session.get(image_url)
+                    with open(f"./images/{image_name}", "wb") as img:
+                            img.write(resp.content)
+                #Si ya se tiene la imagen se busca la promoción, si no está avisa para agregarla.
+                else:
+                    try:
+                        promotion = promos_per_image[image_name]
+                    except:
+                        promotion = ""
+                        print_e(f"La imagen {image_name} no tiene promoción asignada aún.")
+            except:
+                promotion = ""
             
-            cant_prods = len(productos)
-
-            #Si hay más productos agregados en total que el número de resultados para la busqueda quiere decir que se acabó la páginación
-            if cant_prods >=  coincidences or len(elements) < 50:
-                print(f" Terminó la páginación, {cant_prods} productos extraidos de {coincidences} coincidencias")
-                break
+            final_price = prod_tree.xpath('.//span[@data-price-type="finalPrice"]/span/text()')
+            old_price = prod_tree.xpath('.//span[@data-price-type="oldPrice"]/span/text()')
+            if old_price:
+                precio = old_price[0].replace("$", "").replace(",", "")
+                precio_descontado = final_price[0].replace("$", "").replace(",", "")
+                descuento = (float(precio_descontado)*100)/float(precio)
+                descuento = round(abs(descuento-100), 2)
+                descuento = str(descuento) + "%"
             else:
-                print(f"  {cant_prods} productos extraidos")
-                time.sleep(random.randint(6,12))
+                precio = final_price[0].replace("$", "").replace(",", "")
+                precio_descontado = ""
+                descuento = "" 
+            
+            peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
+
+            product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
+                                marca, precio, '', precio_descontado, descuento, promotion, today, detail_url)
+            productos.append(product)
+
+            #cant_prods = len(productos)
+            #Si hay más productos agregados en total que el número de resultados para la busqueda quiere decir que se acabó la páginación
+            #if cant_prods >=  coincidences or len(products) < 36:
+            #    print(f" Terminó la páginación, {cant_prods} productos extraidos de {coincidences} coincidencias")
+            #    break
+            #else:
+            #    print(f"  {cant_prods} productos extraidos de la pág {page+1}")
+            #    time.sleep(random.randint(6,12))
 
         cant_prods_final = len(productos)
         if cant_prods_final >0:
@@ -385,7 +380,11 @@ def main():
             df = pd.DataFrame(productos)
             df.to_csv('precios.csv', index=False, header=False, encoding='utf-8', mode='a')
         else:
-            print(f"No se encontraron productos <---")
+            print_w(f"No se encontraron productos <---")
+
+    print(f"---Termino el proceso de raspado---")
+    print(f"  {medicinas_sin_resultados} medicinas sin resultados de {cant_words}")
+
 
 if __name__ == "__main__":
     print(datetime.today().strftime("%d/%m/%Y %H:%M:%S"))
