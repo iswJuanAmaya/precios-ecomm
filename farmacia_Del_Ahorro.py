@@ -298,7 +298,7 @@ def main():
         "3_x_50.png": "3x50",
         "6_2_1.png": "acumula 6 y llevate 2 gratis"
     }
-    
+    relacion_promos = list(promos_per_image.keys())
     #Itera las medicinas
     medicinas_sin_resultados = 0
     for medicine in key_medicines:
@@ -330,19 +330,17 @@ def main():
             try:
                 image_url = prod_tree.xpath('.//div[contains(@style,"background:url")]/@style')[0].split("'")[1]
                 image_name = image_url.rsplit("/",1)[1]
-                imagenes = os.listdir('./images')
-                #si no está agregada se guarda la iamgen
-                if image_name not in imagenes:
-                    resp = session.get(image_url)
-                    with open(f"./images/{image_name}", "wb") as img:
-                            img.write(resp.content)
-                #Si ya se tiene la imagen se busca la promoción, si no está avisa para agregarla.
+                if image_name in relacion_promos:
+                    promotion = promos_per_image[image_name]
                 else:
-                    try:
-                        promotion = promos_per_image[image_name]
-                    except:
-                        promotion = ""
-                        print_e(f"La imagen {image_name} no tiene promoción asignada aún.")
+                    print_e(f"Imagen {image_name} no ha sido agregada como promocion.")
+                    imagenes = os.listdir('./images')
+                    if image_name not in imagenes:
+                        resp = session.get(image_url)
+                        with open(f"./images/{image_name}", "wb") as img:
+                            img.write(resp.content)
+                        
+                    
             except:
                 promotion = ""
             
@@ -364,15 +362,6 @@ def main():
             product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
                                 marca, precio, '', precio_descontado, descuento, promotion, today, detail_url)
             productos.append(product)
-
-            #cant_prods = len(productos)
-            #Si hay más productos agregados en total que el número de resultados para la busqueda quiere decir que se acabó la páginación
-            #if cant_prods >=  coincidences or len(products) < 36:
-            #    print(f" Terminó la páginación, {cant_prods} productos extraidos de {coincidences} coincidencias")
-            #    break
-            #else:
-            #    print(f"  {cant_prods} productos extraidos de la pág {page+1}")
-            #    time.sleep(random.randint(6,12))
 
         cant_prods_final = len(productos)
         if cant_prods_final >0:
