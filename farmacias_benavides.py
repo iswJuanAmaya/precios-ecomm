@@ -52,6 +52,10 @@ def print_w(msg):
     print(Fore.YELLOW+ msg +Fore.RESET)
 
 
+def print_v(msg):
+    print(Fore.GREEN+ msg +Fore.RESET)
+
+
 def timing_val(func):
     def wrapper(*arg, **kw):
         t1 = time.time()
@@ -257,7 +261,7 @@ def clean_product_strings(medicine, descripcion, peso, presentacion, forma_farma
         'precio descontado': precio_descontado,
         'descuento': descuento,
         'promotion': promotion,
-        'fuente':'Farmacias San Pablo',
+        'fuente':'Farmacias Benavides',
         'scrapping_day': today,
         'detail_url': detail_url,
     } 
@@ -272,88 +276,100 @@ def main():
     print("Obteniendo cookies")
     response = session.get('https://www.benavides.com.mx/', headers=headers)
     
+
     #Itera las medicinas
-    
     medicinas_sin_resultados = 0
     for medicine in key_medicines:
         time.sleep(random.randint(4, 8))
         print(f"\nObteniendo productos para {medicine}")
 
-        url_next_page = ""
-        productos = []
-        for page in range(1, 4):
-            if not url_next_page:
-                params = {
-                    'q': medicine,
-                }
-                response = session.get('https://www.benavides.com.mx/catalogsearch/result/', params=params, headers=headers)
-            else:
-                print(f"  Cambiando a pagina {page}")
-                response = session.get(url_next_page, headers=headers)
-
-            x = html.fromstring(response.text)
-
-            sr = x.xpath("//*[contains(text(), 'No se encontraron resultados exactos para:')]")
-            if sr:
-                medicinas_sin_resultados += 1
-                break
-
-            coincidences = x.xpath('//p[@id="toolbar-amount"]/span[3]/text()')
-            coincidences = coincidences[0] if coincidences else 0
-
-            if int(coincidences) == 0:
-                medicinas_sin_resultados += 1
-                break
-            if page == 1:
-                print(f" Se encontraron {coincidences} coincidencias para {medicine}")
-            
-
-            products_elements = x.xpath('//ol[contains(@class,"product-items")]/li')
-            for prod_elem in products_elements:
-                prom = prod_elem.xpath('.//div[@class="promotion"]/span/text()')
-                promotion = prom[0] if len(prom)>0 else ""
-                marca = prod_elem.xpath('.//div[@class="product-item-brand"]/text()')[0].strip()
-                desc_1 = prod_elem.xpath('.//div[@class="product-item-presentation"]/text()')[0].strip()
-                desc_2 = prod_elem.xpath('.//a[@class="product-item-link"]/text()')[0].strip()
-                detail_url = prod_elem.xpath('.//a[@class="product-item-link"]/@href')[0].strip()
-                descripcion = desc_1 + " " + desc_2
-                price_final = prod_elem.xpath('.//span[contains(@class,"price-final_price")]/span/text()')
-                if price_final:
-                    price = price_final[0].replace("$", "").replace(",", "")
-                    precio_descontado = ""
-                    descuento = ""
+        try:
+            url_next_page = ""
+            productos = []
+            for page in range(1, 4):
+                if not url_next_page:
+                    params = {
+                        'q': medicine,
+                    }
+                    response = session.get('https://www.benavides.com.mx/catalogsearch/result/', params=params, headers=headers)
                 else:
-                    price = prod_elem.xpath('.//span[@data-price-type="oldPrice"]/span/text()')[0].replace("$", "").replace(",", "")
-                    precio_descontado = prod_elem.xpath('.//span[contains(@class,"special-price")]/span/text()')[0].replace("$", "").replace(",", "")
-                    descuento = (float(precio_descontado)*100)/float(price)
-                    descuento = round(abs(descuento-100), 2)
-                    descuento = str(descuento) + "%"
+                    print(f"  Cambiando a pagina {page}")
+                    response = session.get(url_next_page, headers=headers)
 
-                peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
+                x = html.fromstring(response.text)
 
-                product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
-                                    marca, str(price), '', str(precio_descontado), descuento, promotion, 
-                                    today, detail_url)
-                productos.append(product)
+                sr = x.xpath("//*[contains(text(), 'No se encontraron resultados exactos para:')]")
+                srt = x.xpath("//*[contains(text(), 'No encontramos ningún resultado')]")
+                if sr or srt:
+                    medicinas_sin_resultados += 1
+                    break
 
-            cant_prods = len(productos)
-            next_page_btn = x.xpath('//a[@class="action  next" and @title="Siguiente"]/@href')
-            if next_page_btn:
-                #print(f"  {cant_prods} productos extraidos de la pág {page}")
-                url_next_page = next_page_btn[0]
-                time.sleep(random.randint(6,12))
+                coincidences = x.xpath('//p[@id="toolbar-amount"]/span[3]/text()')
+                if not coincidences:
+                    coincidences = x.xpath('//p[@id="toolbar-amount"]/span/text()')
+                
+                if coincidences:
+                    coincidences = coincidences[0]
+                else:
+                    raise Exception("No se encontró el número de coincidencias dentro de la respuesta")
+
+                if int(coincidences) == 0:
+                    medicinas_sin_resultados += 1
+                    break
+                if page == 1:
+                    print(f" Se encontraron {coincidences} coincidencias para {medicine}")
+                
+
+                products_elements = x.xpath('//ol[contains(@class,"product-items")]/li')
+                for prod_elem in products_elements:
+                    prom = prod_elem.xpath('.//div[@class="promotion"]/span/text()')
+                    promotion = prom[0] if len(prom)>0 else ""
+                    marca = prod_elem.xpath('.//div[@class="product-item-brand"]/text()')[0].strip()
+                    desc_1 = prod_elem.xpath('.//div[@class="product-item-presentation"]/text()')[0].strip()
+                    desc_2 = prod_elem.xpath('.//a[@class="product-item-link"]/text()')[0].strip()
+                    detail_url = prod_elem.xpath('.//a[@class="product-item-link"]/@href')[0].strip()
+                    descripcion = desc_1 + " " + desc_2
+                    price_final = prod_elem.xpath('.//span[contains(@class,"price-final_price")]/span/text()')
+                    if price_final:
+                        price = price_final[0].replace("$", "").replace(",", "")
+                        precio_descontado = ""
+                        descuento = ""
+                    else:
+                        price = prod_elem.xpath('.//span[@data-price-type="oldPrice"]/span/text()')[0].replace("$", "").replace(",", "")
+                        precio_descontado = prod_elem.xpath('.//span[contains(@class,"special-price")]/span/text()')[0].replace("$", "").replace(",", "")
+                        descuento = (float(precio_descontado)*100)/float(price)
+                        descuento = round(abs(descuento-100), 2)
+                        descuento = str(descuento) + "%"
+
+                    peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
+
+                    product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
+                                        marca, str(price), '', str(precio_descontado), descuento, promotion, 
+                                        today, detail_url)
+                    productos.append(product)
+
+                cant_prods = len(productos)
+                next_page_btn = x.xpath('//a[@class="action  next" and @title="Siguiente"]/@href')
+                if next_page_btn:
+                    #print(f"  {cant_prods} productos extraidos de la pág {page}")
+                    url_next_page = next_page_btn[0]
+                    time.sleep(random.randint(9,17))
+                else:
+                    print(f" Terminó la páginación, {cant_prods} productos extraidos de {coincidences} coincidencias")
+                    break
+
+
+            cant_prods_final = len(productos)
+            if cant_prods_final >0:
+                print_v(f"Agregando {cant_prods_final} productos a la base de datos")
+                df = pd.DataFrame(productos)
+                df.to_csv('precios.csv', index=False, header=False, encoding='utf-8', mode='a')
             else:
-                print(f" Terminó la páginación, {cant_prods} productos extraidos de {coincidences} coincidencias")
-                break
+                print_w(f"  No se encontraron productos <---")
 
+        except Exception as e:
+            print_e(f"  Falló otención de {medicine},\n   {e}")
 
-        cant_prods_final = len(productos)
-        if cant_prods_final >0:
-            print(f"Agregando {cant_prods_final} productos a la base de datos")
-            df = pd.DataFrame(productos)
-            df.to_csv('precios.csv', index=False, header=False, encoding='utf-8', mode='a')
-        else:
-            print_w(f"  No se encontraron productos <---")
 
     print(f"---Termino el proceso de raspado---")
     print(f"  {medicinas_sin_resultados} medicinas sin resultados de {cant_words}")

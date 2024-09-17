@@ -256,7 +256,7 @@ def clean_product_strings(medicine, descripcion, peso, presentacion, forma_farma
         'precio descontado': precio_descontado,
         'descuento': descuento,
         'promotion': promotion,
-        'fuente':'Farmacias San Pablo',
+        'fuente':'Farmacias Del Ahorro',
         'scrapping_day': today,
         'detail_url': detail_url,
     } 
@@ -299,77 +299,84 @@ def main():
         "6_2_1.png": "acumula 6 y llevate 2 gratis"
     }
     relacion_promos = list(promos_per_image.keys())
+    
+    
     #Itera las medicinas
     medicinas_sin_resultados = 0
     for medicine in key_medicines:
         time.sleep(random.randint(4, 8))
         print(f"\nObteniendo productos para {medicine}")
 
-        params = {
-            'q': medicine,
-            'product_list_limit': '90',
-        }
-        response = session.get('https://www.fahorro.com/catalogsearch/result/index/', params=params, headers=headers)
-        html_source = html.fromstring(response.text)
-        productos_tree =  html_source.xpath('//ol[contains(@class, "product-items")]/li')
-        cant_prods = len(productos_tree)
-        if cant_prods > 85:
-            print_e("Más de 85")
-        if cant_prods == 0:
-            print_w("No se encotraron productos para esta medicina.")
-            medicinas_sin_resultados += 1
-            continue
-        
-        productos = []
-        for prod_tree in productos_tree:
-            descripcion = prod_tree.xpath('.//a[@class="product-item-link"]/text()')[0]
-            marca = ''
-            detail_url = prod_tree.xpath('.//a[@class="product-item-link"]/@href')[0] 
+        try:
+            params = {
+                'q': medicine,
+                'product_list_limit': '90',
+            }
+            response = session.get('https://www.fahorro.com/catalogsearch/result/index/', params=params, headers=headers)
+            html_source = html.fromstring(response.text)
+            productos_tree =  html_source.xpath('//ol[contains(@class, "product-items")]/li')
+            cant_prods = len(productos_tree)
+            if cant_prods > 85:
+                print_e("Más de 85")
+            if cant_prods == 0:
+                print_w("No se encotraron productos para esta medicina.")
+                medicinas_sin_resultados += 1
+                continue
+            
+            productos = []
+            for prod_tree in productos_tree:
+                descripcion = prod_tree.xpath('.//a[@class="product-item-link"]/text()')[0]
+                marca = ''
+                detail_url = prod_tree.xpath('.//a[@class="product-item-link"]/@href')[0] 
 
-            #Busca imagen con promoción, 
-            try:
-                image_url = prod_tree.xpath('.//div[contains(@style,"background:url")]/@style')[0].split("'")[1]
-                image_name = image_url.rsplit("/",1)[1]
-                if image_name in relacion_promos:
-                    promotion = promos_per_image[image_name]
-                else:
-                    print_e(f"Imagen {image_name} no ha sido agregada como promocion.")
-                    imagenes = os.listdir('./images')
-                    if image_name not in imagenes:
-                        resp = session.get(image_url)
-                        with open(f"./images/{image_name}", "wb") as img:
-                            img.write(resp.content)
+                #Busca imagen con promoción, 
+                try:
+                    image_url = prod_tree.xpath('.//div[contains(@style,"background:url")]/@style')[0].split("'")[1]
+                    image_name = image_url.rsplit("/",1)[1]
+                    if image_name in relacion_promos:
+                        promotion = promos_per_image[image_name]
+                    else:
+                        print_e(f"Imagen {image_name} no ha sido agregada como promocion.")
+                        imagenes = os.listdir('./images')
+                        if image_name not in imagenes:
+                            resp = session.get(image_url)
+                            with open(f"./images/{image_name}", "wb") as img:
+                                img.write(resp.content)
+                            
                         
-                    
-            except:
-                promotion = ""
-            
-            final_price = prod_tree.xpath('.//span[@data-price-type="finalPrice"]/span/text()')
-            old_price = prod_tree.xpath('.//span[@data-price-type="oldPrice"]/span/text()')
-            if old_price:
-                precio = old_price[0].replace("$", "").replace(",", "")
-                precio_descontado = final_price[0].replace("$", "").replace(",", "")
-                descuento = (float(precio_descontado)*100)/float(precio)
-                descuento = round(abs(descuento-100), 2)
-                descuento = str(descuento) + "%"
+                except:
+                    promotion = ""
+                
+                final_price = prod_tree.xpath('.//span[@data-price-type="finalPrice"]/span/text()')
+                old_price = prod_tree.xpath('.//span[@data-price-type="oldPrice"]/span/text()')
+                if old_price:
+                    precio = old_price[0].replace("$", "").replace(",", "")
+                    precio_descontado = final_price[0].replace("$", "").replace(",", "")
+                    descuento = (float(precio_descontado)*100)/float(precio)
+                    descuento = round(abs(descuento-100), 2)
+                    descuento = str(descuento) + "%"
+                else:
+                    precio = final_price[0].replace("$", "").replace(",", "")
+                    precio_descontado = ""
+                    descuento = "" 
+                
+                peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
+
+                product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
+                                    marca, precio, '', precio_descontado, descuento, promotion, today, detail_url)
+                productos.append(product)
+
+            cant_prods_final = len(productos)
+            if cant_prods_final >0:
+                print(f"Agregando {cant_prods_final} productos a la base de datos")
+                df = pd.DataFrame(productos)
+                df.to_csv('precios.csv', index=False, header=False, encoding='utf-8', mode='a')
             else:
-                precio = final_price[0].replace("$", "").replace(",", "")
-                precio_descontado = ""
-                descuento = "" 
-            
-            peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
+                print_w(f"No se encontraron productos <---")
 
-            product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
-                                marca, precio, '', precio_descontado, descuento, promotion, today, detail_url)
-            productos.append(product)
+        except Exception as e:
+            print_e(f"  Falló otención de {medicine},\n{e}")
 
-        cant_prods_final = len(productos)
-        if cant_prods_final >0:
-            print(f"Agregando {cant_prods_final} productos a la base de datos")
-            df = pd.DataFrame(productos)
-            df.to_csv('precios.csv', index=False, header=False, encoding='utf-8', mode='a')
-        else:
-            print_w(f"No se encontraron productos <---")
 
     print(f"---Termino el proceso de raspado---")
     print(f"  {medicinas_sin_resultados} medicinas sin resultados de {cant_words}")

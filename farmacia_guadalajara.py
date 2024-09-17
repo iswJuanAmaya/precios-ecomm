@@ -61,6 +61,10 @@ def print_w(msg):
     print(Fore.YELLOW+ msg +Fore.RESET)
 
 
+def print_v(msg):
+    print(Fore.GREEN+ msg +Fore.RESET)
+
+
 def normalizar(text: str) -> str:
     """retorna la cadena del parametro sin acentos, en minuscula 
        y quita espacios al principio o fin de la cadena """
@@ -283,9 +287,13 @@ def main():
             'searchTerm': medicine,
         }
         headers['referer'] = 'https://www.farmaciasguadalajara.com/'
-        response = session.get('https://www.farmaciasguadalajara.com/SearchDisplay', 
+        try:
+            response = session.get('https://www.farmaciasguadalajara.com/SearchDisplay', 
                             params=params, headers=headers)
-        assert response.status_code == 200, "Falló en requests principal para obtener el número de resultados"
+        except Exception as e:
+            print_e("Falló en requests principal para obtener el número de resultados")
+            continue
+        
 
         html_source = html.fromstring(response.text)
         #Busca el número de coincidencias(productos encontrados) dada la busqueda de la medicina
@@ -301,7 +309,7 @@ def main():
                 redirect_text = html_source.xpath('//script[contains(text(),"Redirect")]/text()')[0]
                 redirect_url = redirect_text.split('Redirect(')[1].split('"')[3]
                 if "www.farmaciasguadalajara.com" not in redirect_url:
-                    print("ERROR No se encontró un redirect de producto unico")
+                    print_w("ERROR No se encontró un redirect de producto unico")
                     continue 
                 resp = session.get(redirect_url, headers=headers, timeout=20)
                 html_source = html.fromstring(resp.text)
@@ -321,7 +329,7 @@ def main():
                 productos.append(product)
                 coincidences = 1
             except:
-                print("ERROR No se encontraron coincidencias ni redirecciones")
+                print_e("ERROR No se encontraron coincidencias ni redirecciones")
                 continue
 
         print(f" Se encontraron {coincidences} coincidencias para {medicine}")
@@ -340,52 +348,57 @@ def main():
             cant_prods = len(productos)
             if cant_prods == 1:
                 break
-
-            # Trae lista de productos
-            begin_index = cant_prods
-            product_begin_index = cant_prods 
-            url = f'https://www.farmaciasguadalajara.com/ProductListingView?top_category2=&top_category3=&facet=&searchTermScope=&top_category4=&top_category5=&searchType=&filterFacet=&resultCatEntryType=2&sType=SimpleSearch&top_category=&gridPosition=&ddkey=ProductListingView&metaData=&ajaxStoreImageDir=%2Fwcsstore%2FFGSAS%2F&advancedSearch=&categoryId=&categoryFacetHierarchyPath=&searchTerm={medicine}&emsName=&filterTerm=&manufacturer=&resultsPerPage=80&disableProductCompare=ture&parent_category_rn=&catalogId=10052&langId=-24&enableSKUListView=false&storeId=10151&contentBeginIndex=0&beginIndex={begin_index}&productBeginIndex={product_begin_index}&orderBy=&pageSize=80&x_pageType=[Ljava.lang.String;@b32cc07a&x_noDropdown=true'
-            response = session.get(url=url, headers=headers,)
-
-            #Extrae producto y lo agrega a la lista
-            html_source = html.fromstring(response.text)
-            elements = html_source.xpath('//div[@class="product"]')
-            for element in elements:
-                detail_url = element.xpath('.//div[@class="product_info"]/div/a/@href')[0].strip()
-                descripcion = element.xpath('.//div[@class="product_info"]/div/a/text()')[1].strip().lower()
-                marca = element.xpath('.//div[@class="product_info"]/div/a/b/text()')[0].strip().lower()
-                price = element.xpath('.//div[@class="product_info"]//span[contains(@id,"offerPrice")]/text()')[0].strip()
-                try:
-                    max_price = element.xpath('.//div[@class="product_info"]//span[contains(@id,"listPrice")]/text()')[0].strip()
-                except:
-                    max_price = ""
-                try:
-                    promotion = element.xpath('.//div[contains(@class,"plp-promotion")]/span/text()')[0].strip()
-                except:
-                    promotion = ""
-                
-                peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
-                product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
-                                                marca, price, max_price, promotion, today, detail_url)
-                productos.append(product)
             
-            cant_prods = len(productos)
+            try:
+                # Trae lista de productos
+                begin_index = cant_prods
+                product_begin_index = cant_prods 
+                url = f'https://www.farmaciasguadalajara.com/ProductListingView?top_category2=&top_category3=&facet=&searchTermScope=&top_category4=&top_category5=&searchType=&filterFacet=&resultCatEntryType=2&sType=SimpleSearch&top_category=&gridPosition=&ddkey=ProductListingView&metaData=&ajaxStoreImageDir=%2Fwcsstore%2FFGSAS%2F&advancedSearch=&categoryId=&categoryFacetHierarchyPath=&searchTerm={medicine}&emsName=&filterTerm=&manufacturer=&resultsPerPage=80&disableProductCompare=ture&parent_category_rn=&catalogId=10052&langId=-24&enableSKUListView=false&storeId=10151&contentBeginIndex=0&beginIndex={begin_index}&productBeginIndex={product_begin_index}&orderBy=&pageSize=80&x_pageType=[Ljava.lang.String;@b32cc07a&x_noDropdown=true'
+                response = session.get(url=url, headers=headers,)
 
-            #Si hay más productos agregados en total que el número de resultados para la busqueda quiere decir que se acabó la páginación
-            if cant_prods >=  coincidences or len(elements) < 50:
-                print(f" Terminó la páginación, {cant_prods} productos extraidos de {coincidences} coincidencias")
-                break
-            else:
-                print(f"  {cant_prods} productos extraidos")
-                time.sleep(random.randint(6,12))
+                #Extrae producto y lo agrega a la lista
+                html_source = html.fromstring(response.text)
+                elements = html_source.xpath('//div[@class="product"]')
+                for element in elements:
+                    detail_url = element.xpath('.//div[@class="product_info"]/div/a/@href')[0].strip()
+                    descripcion = element.xpath('.//div[@class="product_info"]/div/a/text()')[1].strip().lower()
+                    marca = element.xpath('.//div[@class="product_info"]/div/a/b/text()')[0].strip().lower()
+                    price = element.xpath('.//div[@class="product_info"]//span[contains(@id,"offerPrice")]/text()')[0].strip()
+                    try:
+                        max_price = element.xpath('.//div[@class="product_info"]//span[contains(@id,"listPrice")]/text()')[0].strip()
+                    except:
+                        max_price = ""
+                    try:
+                        promotion = element.xpath('.//div[contains(@class,"plp-promotion")]/span/text()')[0].strip()
+                    except:
+                        promotion = ""
+                    
+                    peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
+                    product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
+                                                    marca, price, max_price, promotion, today, detail_url)
+                    productos.append(product)
+                
+                cant_prods = len(productos)
+
+                #Si hay más productos agregados en total que el número de resultados para la busqueda quiere decir que se acabó la páginación
+                if cant_prods >=  coincidences or len(elements) < 50:
+                    print(f" Terminó la páginación, {cant_prods} productos extraidos de {coincidences} coincidencias")
+                    break
+                else:
+                    print(f"  {cant_prods} productos extraidos")
+                    time.sleep(random.randint(6,12))
+
+            except Exception as e:
+                print_e(f"  Falló\n{e}")
 
         cant_prods_final = len(productos)
         if cant_prods_final >0:
-            print(f"Agregando {cant_prods_final} productos a la base de datos")
+            print_v(f"Agregando {cant_prods_final} productos a la base de datos")
             df = pd.DataFrame(productos)
             df.to_csv('precios.csv', index=False, header=False, encoding='utf-8', mode='a')
         else:
-            print(f"No se encontraron productos <---")
+            print_e(f"No se encontraron productos <---")
+
 
 if __name__ == "__main__":
     print(datetime.today().strftime("%d/%m/%Y %H:%M:%S"))

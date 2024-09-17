@@ -52,6 +52,10 @@ def print_w(msg):
     print(Fore.YELLOW+ msg +Fore.RESET)
 
 
+def print_v(msg):
+    print(Fore.GREEN+ msg +Fore.RESET)
+
+
 def timing_val(func):
     def wrapper(*arg, **kw):
         t1 = time.time()
@@ -279,73 +283,77 @@ def main():
         time.sleep(random.randint(4, 8))
         print(f"\nObteniendo productos para {medicine}")
 
-        productos = []
-        for page in range(0, 3):
-            med_url = f'query={medicine}&currentPage={page}&pageSize=36&lang=es_MX&curr=MXN'
-            url = base_url + med_url
-            response = session.get(url=url, headers=headers)
-            resp = response.json()
+        try:
+            productos = []
+            for page in range(0, 3):
+                med_url = f'query={medicine}&currentPage={page}&pageSize=36&lang=es_MX&curr=MXN'
+                url = base_url + med_url
+                response = session.get(url=url, headers=headers)
+                resp = response.json()
 
-            coincidences = resp['pagination']['totalResults']
-            #total_pags = resp['pagination']['totalPages']
-            products = resp['products']
+                coincidences = resp['pagination']['totalResults']
+                #total_pags = resp['pagination']['totalPages']
+                products = resp['products']
 
-            if page == 0:
-                print(f" Se encontraron {coincidences} coincidencias para {medicine}")
+                if page == 0:
+                    print(f" Se encontraron {coincidences} coincidencias para {medicine}")
 
-            if int(coincidences) == 0:
-                print_w("No se encotraron productos para esta medicina.")
-                medicinas_sin_resultados += 1
-                break
+                if int(coincidences) == 0:
+                    medicinas_sin_resultados += 1
+                    break
 
-            for prod in products:
-                aditional = prod['additionalDescription']
-                descripcion = prod['name'] + " " + aditional
-                marca = ""
+                for prod in products:
+                    aditional = prod['additionalDescription']
+                    descripcion = prod['name'] + " " + aditional
+                    marca = ""
 
-                apego_mec = prod.get('apegoMechanic')
-                promotion = apego_mec['mechanic'] if apego_mec else ""
+                    apego_mec = prod.get('apegoMechanic')
+                    promotion = apego_mec['mechanic'] if apego_mec else ""
 
-                detail_url = prod['url']
+                    detail_url = prod['url']
 
-                especial_promotion = prod['potentialPromotions']
-                esp_prom = especial_promotion[0].get('description')
-                if esp_prom:
-                    promotion = esp_prom if not promotion else promotion + " --> " + esp_prom
+                    especial_promotion = prod['potentialPromotions']
+                    esp_prom = especial_promotion[0].get('description')
+                    if esp_prom:
+                        promotion = esp_prom if not promotion else promotion + " --> " + esp_prom
 
-                price = prod['price']['value']
-                precio_descontado = prod['basePrice']['value']
-                if price != precio_descontado:
-                    descuento = (precio_descontado*100)/price
-                    descuento = round(abs(descuento-100), 2)
-                    descuento = str(descuento) + "%"
+                    price = prod['price']['value']
+                    precio_descontado = prod['basePrice']['value']
+                    if price != precio_descontado:
+                        descuento = (precio_descontado*100)/price
+                        descuento = round(abs(descuento-100), 2)
+                        descuento = str(descuento) + "%"
+                    else:
+                        descuento = ''
+                        precio_descontado =  ''
+
+                    peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
+
+                    product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
+                                        marca, str(price), '', str(precio_descontado), descuento, promotion, 
+                                        today, detail_url)
+                    productos.append(product)
+
+                cant_prods = len(productos)
+                #Si hay más productos agregados en total que el número de resultados para la busqueda quiere decir que se acabó la páginación
+                if cant_prods >=  coincidences or len(products) < 36:
+                    print(f" Terminó la páginación, {cant_prods} productos extraidos de {coincidences} coincidencias")
+                    break
                 else:
-                    descuento = ''
-                    precio_descontado =  ''
+                    #print(f"  {cant_prods} productos extraidos de la pág {page+1}")
+                    time.sleep(random.randint(6,12))
 
-                peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
-
-                product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
-                                    marca, str(price), '', str(precio_descontado), descuento, promotion, 
-                                    today, detail_url)
-                productos.append(product)
-
-            cant_prods = len(productos)
-            #Si hay más productos agregados en total que el número de resultados para la busqueda quiere decir que se acabó la páginación
-            if cant_prods >=  coincidences or len(products) < 36:
-                print(f" Terminó la páginación, {cant_prods} productos extraidos de {coincidences} coincidencias")
-                break
+            cant_prods_final = len(productos)
+            if cant_prods_final >0:
+                print_v(f"Agregando {cant_prods_final} productos a la base de datos")
+                df = pd.DataFrame(productos)
+                df.to_csv('precios.csv', index=False, header=False, encoding='utf-8', mode='a')
             else:
-                #print(f"  {cant_prods} productos extraidos de la pág {page+1}")
-                time.sleep(random.randint(6,12))
+                print_w(f"  No se encontraron productos <---")
 
-        cant_prods_final = len(productos)
-        if cant_prods_final >0:
-            print(f"Agregando {cant_prods_final} productos a la base de datos")
-            df = pd.DataFrame(productos)
-            df.to_csv('precios.csv', index=False, header=False, encoding='utf-8', mode='a')
-        else:
-            print_w(f"  No se encontraron productos <---")
+        except Exception as e:
+            print_e(f"  Falló otención de {medicine},\n{e}")
+
 
     print(f"---Termino el proceso de raspado---")
     print(f"  {medicinas_sin_resultados} medicinas sin resultados de {cant_words}")
