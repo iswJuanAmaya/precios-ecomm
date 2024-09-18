@@ -306,12 +306,42 @@ def main():
 
                 coincidences = x.xpath('//p[@id="toolbar-amount"]/span[3]/text()')
                 if not coincidences:
-                    coincidences = x.xpath('//p[@id="toolbar-amount"]/span/text()')
-                
+                    coincidences = x.xpath('//p[@id="toolbar-amount"]/span/text()')              
                 if coincidences:
                     coincidences = coincidences[0]
                 else:
-                    raise Exception("No se encontró el número de coincidencias dentro de la respuesta")
+                    if x.xpath("//div[@class='product-info-main']"):
+                        print("  se encontró un único producto que coincide con la búsqueda")
+                    else:
+                        raise Exception("No se encontró el número de coincidencias dentro de la respuesta")
+
+                    prom = x.xpath('//span[@name="card_promotions"]/label/text()')
+                    promotion = prom[0] if len(prom)>0 else ""
+                    marca = x.xpath('//span[@class="principal-title"]/text()')[0].strip()
+                    desc_1 = x.xpath('//h1[@class="product-name"]/text()')[0].strip()
+                    desc_2 = x.xpath('//span[@class="product-presentation"]/text()')[0].strip()
+                    descripcion = desc_1 + " " + desc_2
+                    detail_url = response.url
+                    price_final = x.xpath('.//span[contains(@class,"price-final_price")]/span/text()')
+                    if price_final:
+                        price = price_final[0].replace("$", "").replace(",", "")
+                        precio_descontado = ""
+                        descuento = ""
+                    else:
+                        price = prod_elem.xpath('.//span[@data-price-type="oldPrice"]/span/text()')[0].replace("$", "").replace(",", "")
+                        precio_descontado = prod_elem.xpath('.//span[contains(@class,"special-price")]/span/text()')[0].replace("$", "").replace(",", "")
+                        descuento = (float(precio_descontado)*100)/float(price)
+                        descuento = round(abs(descuento-100), 2)
+                        descuento = str(descuento) + "%"
+
+                    peso, presentacion, forma_farmacologica = get_concentracion_from_description(descripcion)
+
+                    product = clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 
+                                        marca, str(price), '', str(precio_descontado), descuento, promotion, 
+                                        today, detail_url)
+                    productos.append(product)
+
+                    break
 
                 if int(coincidences) == 0:
                     medicinas_sin_resultados += 1
@@ -319,7 +349,6 @@ def main():
                 if page == 1:
                     print(f" Se encontraron {coincidences} coincidencias para {medicine}")
                 
-
                 products_elements = x.xpath('//ol[contains(@class,"product-items")]/li')
                 for prod_elem in products_elements:
                     prom = prod_elem.xpath('.//div[@class="promotion"]/span/text()')
