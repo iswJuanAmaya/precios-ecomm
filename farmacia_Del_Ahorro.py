@@ -27,7 +27,7 @@ key_medicines = [
 ] 
 key_medicines = [i.lower() for i in key_medicines]
 #key_medicines = ["bloqueador", "papilla", "electrolito", "jugo", "loratadina", "sildenafil", "crema humectante", "labello", "tinte", "repelente", "laminitas", "galleta"]
-today = datetime.today().strftime("%d/%m/%Y %H:%M:%S")
+today = datetime.today().strftime("%d/%m/%Y")
 session = requests.Session()
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -49,6 +49,10 @@ def print_e(msg):
 
 def print_w(msg):
     print(Fore.YELLOW+ msg +Fore.RESET)
+
+
+def print_v(msg):
+    print(Fore.GREEN+ msg +Fore.RESET)
 
 
 def timing_val(func):
@@ -285,6 +289,7 @@ def main():
         "3x60.png": "3x60",
         "Label_70__1.png": "70% de descuento",
         "4_1_2.png": "Acumula 4 y llevate 1 gratis",
+        "5_1_1.png": "Acumula 5 y llevate 1 gratis",
         "2_x_52_1.png": "2x52",
         "40_off.png": "40% de descuento",
         "15desc.png": "15% de desc",
@@ -368,7 +373,7 @@ def main():
 
             cant_prods_final = len(productos)
             if cant_prods_final >0:
-                print(f"Agregando {cant_prods_final} productos a la base de datos")
+                print_v(f"Agregando {cant_prods_final} productos a la base de datos")
                 df = pd.DataFrame(productos)
                 df.to_csv('precios.csv', index=False, header=False, encoding='utf-8', mode='a')
             else:

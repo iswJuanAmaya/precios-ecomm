@@ -25,7 +25,7 @@ key_medicines = [
     'PRADAXAR', 'XARELTO', 'ELICUIS', 'CLEXANE', 'COUMADIN', 'SINTROM', 'FRAXIPARINE'
 ]
 key_medicines = [i.lower() for i in key_medicines]
-today = datetime.today().strftime("%d/%m/%Y %H:%M:%S")
+today = datetime.today().strftime("%d/%m/%Y")
 session = requests.Session()
 headers = {
     'accept': 'application/json, text/plain, */*',
