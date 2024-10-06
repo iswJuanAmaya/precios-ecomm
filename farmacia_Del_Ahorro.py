@@ -290,6 +290,7 @@ def main():
         "Label_70__1.png": "70% de descuento",
         "4_1_2.png": "Acumula 4 y llevate 1 gratis",
         "5_1_1.png": "Acumula 5 y llevate 1 gratis",
+        "2da_al_50.png": "50% de descuento en la segunda pieza",
         "2_x_52_1.png": "2x52",
         "40_off.png": "40% de descuento",
         "15desc.png": "15% de desc",
@@ -301,7 +302,8 @@ def main():
         "Label_2x_30_2.png": "2x30",
         "30_off.png": "30% de desc",
         "3_x_50.png": "3x50",
-        "6_2_1.png": "acumula 6 y llevate 2 gratis"
+        "6_2_1.png": "acumula 6 y llevate 2 gratis",
+        "10_off.png":"10% de descuento"
     }
     relacion_promos = list(promos_per_image.keys())
     
