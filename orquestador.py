@@ -66,7 +66,10 @@ def main():
     #scripts = []
     for script in scripts:
         print(f"///////////////++++++++++++++++++++++ ejecutando {script} ++++++++++++++++++++++////////////////")
-        os.system(f"python {script}")
+        if os.name != 'nt':
+            os.system(f"python {script}")
+        else: 
+            os.system(f"python3 {script}")
 
         print("\n\nEsperando para siguiente ejecución.")
         print("<----------")

@@ -6,6 +6,7 @@ import time
 import random
 import pandas as pd
 from colorama import Fore
+import os 
 
 key_medicines = [
     'GIOTRIF', 'TARCEVA', 'IRESSA', 'VARGATEF', 'TAXOTERE', 'KEYTRUDA', 'OPDIVO', 'ACTILYSE',
@@ -27,6 +28,14 @@ key_medicines = [
 key_medicines = [i.lower() for i in key_medicines]
 today = datetime.today().strftime("%d/%m/%Y")
 session = requests.Session()
+if os.name != 'nt':
+    print("Como no está en windows se inicializa proxy")
+    proxies = {
+        'http': 'http://sp072m4oql:bSx81k=m4Gony4PoNb@mx.smartproxy.com:20004',
+        'https': 'https://sp072m4oql:bSx81k=m4Gony4PoNb@mx.smartproxy.com:20002',
+    }
+    session.proxies.update(proxies)
+
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'accept-language': 'es-419,es;q=0.9',
@@ -260,6 +269,10 @@ def clean_product_strings(medicine, descripcion, peso, presentacion, forma_farma
 
 @timing_val
 def main():
+    cant_words = len(key_medicines)
+    print("---Empieza proceso de recolección ---")
+    print(f"  {cant_words} medicinas para buscar")
+
     print("Obteniendo cookies")
     response = session.get('https://www.farmaciasguadalajara.com/', headers=headers)
 
@@ -292,6 +305,7 @@ def main():
                             params=params, headers=headers)
         except Exception as e:
             print_e("Falló en requests principal para obtener el número de resultados")
+            medicinas_sin_resultados += 1
             continue
         
 
@@ -310,6 +324,7 @@ def main():
                 redirect_url = redirect_text.split('Redirect(')[1].split('"')[3]
                 if "www.farmaciasguadalajara.com" not in redirect_url:
                     print_w("ERROR No se encontró un redirect de producto unico")
+                    medicinas_sin_resultados += 1
                     continue 
                 resp = session.get(redirect_url, headers=headers, timeout=20)
                 html_source = html.fromstring(resp.text)
@@ -330,6 +345,7 @@ def main():
                 coincidences = 1
             except:
                 print_e("ERROR No se encontraron coincidencias ni redirecciones")
+                medicinas_sin_resultados += 1
                 continue
 
         print(f" Se encontraron {coincidences} coincidencias para {medicine}")
@@ -398,6 +414,9 @@ def main():
             df.to_csv('precios.csv', index=False, header=False, encoding='utf-8', mode='a')
         else:
             print_e(f"No se encontraron productos <---")
+
+    print(f"---Termino el proceso de raspado---")
+    print(f"  {medicinas_sin_resultados} medicinas sin resultados de {cant_words}")
 
 
 if __name__ == "__main__":
