@@ -62,11 +62,11 @@ def generate_df(tipo:str)->str:
 
 def main():
     today_datetime = date.today()
-    scripts = ["farmacia_Del_Ahorro.py", "farmacia_guadalajara.py", "farmacias_benavides.py", "farmacias_San_Pablo.py"]
+    scripts = ["farmacia_Del_Ahorro.py", "farmacia_guadalajara.py",  "farmacias_benavides.py", "farmacias_San_Pablo.py"]
     #scripts = []
     for script in scripts:
         print(f"///////////////++++++++++++++++++++++ ejecutando {script} ++++++++++++++++++++++////////////////")
-        if os.name != 'nt':
+        if os.name == 'nt':
             os.system(f"python {script}")
         else: 
             os.system(f"python3 {script}")
