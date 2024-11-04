@@ -21,7 +21,7 @@ key_medicines = [
     'JARDIANZ', 'XIGDUO', 'INVOKANA', 'TRULICITY', 'OZEMPIC', 'CATAPRESAN', 'CARDURA', 'MICARDIS', 
     'EDARBI', 'LOSARTAN', 'ATACAND', 'ALMETEC', 'APROVEL', 'AVAPRO', 'COZAAR', 'DIOVAN', 'LEGIONIS', 
     'TELARTEQ', 'TRANSENDIS', 'AVALIDE', 'HYZAAR', 'COAPROVEL', 
-    'LOSAR', 'OPENVAS', 'EXFORGE', 'APROVASC', 'BICARTIAL', 'DUOALMETEC', 'MAXOPRESS', 
+    'OPENVAS', 'EXFORGE', 'APROVASC', 'BICARTIAL', 'DUOALMETEC', 'MAXOPRESS', 
     'PRADAXAR', 'XARELTO', 'ELICUIS', 'CLEXANE', 'COUMADIN', 'SINTROM', 'FRAXIPARINE'
 ]
     
@@ -86,7 +86,7 @@ def normalizar(text: str) -> str:
 
 
 def get_concentracion_from_description(desc_comer) -> list:
-   """ get the four characteristics from descripcion comercial( eg. 20 mg 20 tabletas)
+    """ get the four characteristics from descripcion comercial( eg. 20 mg 20 tabletas)
     receives an import row from matched_imports.csv, tries to find the 
     presentation(concentration, concentration unit, presentation, farmacology form) 
     from the comercial description("descripcion_comercial") through differents forms
@@ -119,122 +119,133 @@ def get_concentracion_from_description(desc_comer) -> list:
             #(tabletas|tab|capsulas|comprimidos|solucion inyectable|solucion oral|ge) tiene que haber por 
             #lo menos una de estas formas
     """
-   desc_comer = normalizar(desc_comer)
-   #------------------------------4------------------------------#
-   unidad_concentracion = '(mg|mcg|ml|gr)'
-   cant_flot = '\d+\.?\d*\s*'
-   cant_ent = '\d{1,3}'
-   forma_farma = '(comprimidos|ampolletas|inyectable|suspension|tabletas|capsulas|solucion|jeringas|capsula|aerosol|parches|sobre|polvo|dosis|vial|tab|gel)'
-   espacios = '\s*'
-   any = '.{0,40}'
-   # 'seretide diskus polvo 50mcg/500mcg, 60 dosis.'
-   expresion_a = cant_flot+unidad_concentracion + "/" + cant_flot + unidad_concentracion + any + cant_ent + espacios + forma_farma
-   expresion_b =  cant_flot + espacios + unidad_concentracion  + any + cant_ent + espacios + forma_farma
-   expresion_c = cant_ent + espacios + forma_farma + any + cant_flot + unidad_concentracion
-   expresion_d = forma_farma + any + cant_flot + espacios + unidad_concentracion
-   expresion_e = cant_flot + espacios + unidad_concentracion  + any + forma_farma
-   expresion_f = cant_ent + espacios + forma_farma
-   expresion_g = cant_flot + espacios + unidad_concentracion
+    desc_comer = normalizar(desc_comer)
+    #------------------------------4------------------------------#
+    unidad_concentracion = '(mg|mcg|ml|gr)'
+    cant_flot = '\d+\.?\d*\s*'
+    cant_ent = '\d{1,3}'
+    forma_farma = '(comprimidos|ampolletas|inyectable|suspension|tabletas|capsulas|solucion|jeringas|capsula|aerosol|parches|sobre|polvo|dosis|vial|caps|tabl|amp|tab|gel|ud)'
+    espacios = '\s*'
+    any = '.{0,40}'
+    # 'seretide diskus polvo 50mcg/500mcg, 60 dosis.'
+    expresion_a = cant_flot+unidad_concentracion + "/" + cant_flot + unidad_concentracion + any + cant_ent + espacios + forma_farma
+    expresion_b =  cant_flot + espacios + unidad_concentracion  + any + cant_ent + espacios + forma_farma
+    expresion_c = cant_ent + espacios + forma_farma + any + cant_flot + unidad_concentracion
+    expresion_d = forma_farma + any + cant_flot + espacios + unidad_concentracion
+    expresion_e = cant_flot + espacios + unidad_concentracion  + any + forma_farma
+    expresion_f = cant_ent + espacios + forma_farma
+    expresion_g = cant_flot + espacios + unidad_concentracion
+    expresion_h = cant_flot + espacios + "g" 
 
-   if not isinstance(desc_comer, str):
-       return ["", "",""]
-   #----------------------------------------4--------------------------------------#
-   #seretide diskus polvo 50mcg/500mcg, 60 dosis.' -4
-   match = re.search(expresion_a, desc_comer)
-   if match:
-      info = match.group()
+    if not isinstance(desc_comer, str):
+        return ["", "",""]
+    #----------------------------------------4--------------------------------------#
+    #seretide diskus polvo 50mcg/500mcg, 60 dosis.' -4
+    match = re.search(expresion_a, desc_comer)
+    if match:
+        info = match.group()
 
-      regex = cant_flot+unidad_concentracion + "/" + cant_flot + unidad_concentracion
-      peso = re.search(regex, info)
-      peso = peso[0]
+        regex = cant_flot+unidad_concentracion + "/" + cant_flot + unidad_concentracion
+        peso = re.search(regex, info)
+        peso = peso[0]
 
-      regex = cant_ent + espacios + forma_farma
-      cantidad_forma_farma = re.search(regex, info)
-      cantidad = cantidad_forma_farma[0].split(" ")[0]
-      forma_farmacologica = cantidad_forma_farma[0].split(" ")[1]
-      
-      return [peso, cantidad, forma_farmacologica]
+        regex = cant_ent + espacios + forma_farma
+        cantidad_forma_farma = re.search(regex, info)
+        cantidad = cantidad_forma_farma[0].split(" ")[0]
+        forma_farmacologica = cantidad_forma_farma[0].split(" ")[1]
+        
+        return [peso, cantidad, forma_farmacologica]
+    
+    # 'kitoscell lp 600 mg, 90 tabletas.' -4
+    match = re.search(expresion_b, desc_comer)
+    if match:
+        info = match.group()
+        regex = cant_flot + espacios + unidad_concentracion
+        peso = re.search(regex, info)
+        peso = peso[0]
 
-   # 'clexane 80 mg solución inyectable, 2 jeringas con 0.8 ml c/u.' -4
-   match = re.search(expresion_c, desc_comer)
-   if match:
-      info = match.group()
-      regex = cant_flot + espacios + unidad_concentracion
-      peso = re.search(regex, info)
-      peso = peso[0]
+        regex = cant_ent + espacios + forma_farma
+        cantidad_forma_farma = re.search(regex, info)
+        cantidad = cantidad_forma_farma[0].split(" ")[0]
+        forma_farmacologica = cantidad_forma_farma[0].split(" ")[1]
+        peso = peso.replace(" ", "")
+        return [peso, cantidad, forma_farmacologica]
 
-      regex = cant_ent + espacios + forma_farma
-      cantidad_forma_farma = re.search(regex, info)
-      cantidad = cantidad_forma_farma[0].split(" ")[0]
-      forma_farmacologica = cantidad_forma_farma[0].split(" ")[1]
-      
-      return [peso, cantidad, forma_farmacologica]
- 
-   # 'kitoscell lp 600 mg, 90 tabletas.' -4
-   match = re.search(expresion_b, desc_comer)
-   if match:
-      info = match.group()
-      regex = cant_flot + espacios + unidad_concentracion
-      peso = re.search(regex, info)
-      peso = peso[0]
+    # 
+    match = re.search(expresion_c, desc_comer)
+    if match:
+        info = match.group()
+        regex = cant_flot + espacios + unidad_concentracion
+        peso = re.search(regex, info)
+        peso = peso[0]
 
-      regex = cant_ent + espacios + forma_farma
-      cantidad_forma_farma = re.search(regex, info)
-      cantidad = cantidad_forma_farma[0].split(" ")[0]
-      forma_farmacologica = cantidad_forma_farma[0].split(" ")[1]
+        regex = cant_ent + espacios + forma_farma
+        cantidad_forma_farma = re.search(regex, info)
+        cantidad = cantidad_forma_farma[0].split(" ")[0]
+        forma_farmacologica = cantidad_forma_farma[0].split(" ")[1]
+        
+        peso = peso.replace(" ", "")
+        return [peso, cantidad, forma_farmacologica]
 
-      return [peso, cantidad, forma_farmacologica]
+    # 'fosfocil 1 gr solución inyectable intravenosa, 1 pz.' -3 o -4
+    match = re.search(expresion_e, desc_comer)
+    if match:
+        info = match.group()
+        regex = cant_flot + espacios + unidad_concentracion 
+        peso = re.search(regex, info)
+        peso = peso[0]
 
-   # 'fosfocil 1 gr solución inyectable intravenosa, 1 pz.' -3 o -4
-   match = re.search(expresion_e, desc_comer)
-   if match:
-      info = match.group()
-      regex = cant_flot + espacios + unidad_concentracion 
-      peso = re.search(regex, info)
-      peso = peso[0]
+        regex = forma_farma
+        forma_farmacologica = re.search(regex, info)[0]
 
-      regex = forma_farma
-      forma_farmacologica = re.search(regex, info)[0]
+        cantidad = ''
+        match = re.search("\d{1,3}\s*(pz|pzas|piezas)", desc_comer)
+        if match:
+            cantidad = re.search("\d{1,3}", info)[0] 
+            
+        return [peso, cantidad, forma_farmacologica]
+    
+    # 'kitoscell gel, 30 gr.' -3 
+    match = re.search(expresion_d, desc_comer)
+    if match:
+        info = match.group()
+        regex = cant_flot + espacios + unidad_concentracion
+        peso = re.search(regex, info)
+        peso = peso[0]
 
-      cantidad = ''
-      match = re.search("\d{1,3}\s*(pz|pzas|piezas)", desc_comer)
-      if match:
-         cantidad = re.search("\d{1,3}", info)[0] 
-         
-      return [peso, cantidad, forma_farmacologica]
- 
-   # 'kitoscell gel, 30 gr.' -3 
-   match = re.search(expresion_d, desc_comer)
-   if match:
-      info = match.group()
-      regex = cant_flot + espacios + unidad_concentracion
-      peso = re.search(regex, info)
-      peso = peso[0]
+        regex = forma_farma
+        forma_farmacologica = re.search(regex, info)[0]
+        peso = peso.replace(" ", "")
+        return [peso, "", forma_farmacologica]
 
-      regex = forma_farma
-      forma_farmacologica = re.search(regex, info)[0]
-      return [peso, "", forma_farmacologica]
+    # 'allegra d tratamiento para la alergia y congestion nasal antihistaminico, 10 tabletas.' -2
+    match = re.search(expresion_f, desc_comer)
+    if match:
+        info = match.group()
+        regex = cant_ent + espacios + forma_farma
+        cantidad_forma_farma = re.search(regex, info)
+        cantidad = cantidad_forma_farma[0].split(" ")[0]
+        forma_farmacologica = cantidad_forma_farma[0].split(" ")[1]
+        return ["", cantidad, forma_farmacologica]
+    
+    #'atrovent 250mcg/ml, 20 ml.' -2
+    match = re.search(expresion_g, desc_comer)
+    if match:
+        info = match.group()
+        regex = cant_flot + espacios + unidad_concentracion
+        peso = re.search(regex, info)
+        peso = peso[0]
+        peso = peso.replace(" ", "")
+        return [peso, "", ""]
 
-   # 'allegra d tratamiento para la alergia y congestion nasal antihistaminico, 10 tabletas.' -2
-   match = re.search(expresion_f, desc_comer)
-   if match:
-      info = match.group()
-      regex = cant_ent + espacios + forma_farma
-      cantidad_forma_farma = re.search(regex, info)
-      cantidad = cantidad_forma_farma[0].split(" ")[0]
-      forma_farmacologica = cantidad_forma_farma[0].split(" ")[1]
-      return ["", cantidad, forma_farmacologica]
- 
-   #'atrovent 250mcg/ml, 20 ml.' -2
-   match = re.search(expresion_g, desc_comer)
-   if match:
-      info = match.group()
-      regex = cant_flot + espacios + unidad_concentracion
-      peso = re.search(regex, info)
-      peso = peso[0]
-      return [peso, "", ""]
-   
-   return ["", "",""]
+    # Kitoscell Gel 10 g
+    match = re.search(expresion_h, desc_comer)
+    if match:
+        peso = match.group()
+        peso = peso.replace(" ", "")
+        return [peso, "", ""]
+    
+    return ["", "",""]
 
 
 def clean_product_strings(medicine, descripcion, peso, presentacion, forma_farmacologica, 

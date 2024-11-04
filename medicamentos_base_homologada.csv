@@ -1,0 +1,359 @@
+,Medicamento,name,peso,presentacion,forma_farmacologica
+0,  GIOTRIF TABL F.COATE 20 MG x 30,giotrif,20mg,30,tabl
+1,  GIOTRIF TABL F.COATE 30 MG x 30,giotrif,30mg,30,tabl
+2,  GIOTRIF TABL F.COATE 40 MG x 30,giotrif,40mg,30,tabl
+3,  TARCEVA TABL RECUB. 150 MG x 30,tarceva,150mg,30,tabl
+4,  IRESSA TABL 250 MG x 30,iressa,250mg,30,tabl
+5,  GIOTRIF TABL F.COATE 50 MG x 30,giotrif,50mg,30,tabl
+6,  VARGATEF CAPS 100 MG x 120,vargatef,100mg,120,caps
+7,  VARGATEF CAPS 150 MG x 60,vargatef,150mg,60,caps
+8,  TAXOTERE VIAL P/INFU. 80 MG 2 ML x 1,taxotere,80mg,1,vial
+9,  TAXOTERE VIAL P/INFU. 20 MG 0.50 ML x 1,taxotere,20mg,1,vial
+10,  KEYTRUDA VIAL 100 MG 4 ML x 1,keytruda,100mg,1,vial
+11,  OPDIVO VIAL I.V 100 MG 10 ML x 1,opdivo,100mg,1,vial
+12,  OPDIVO VIAL I.V 40 MG 4 ML x 1,opdivo,40mg,1,vial
+13,  ACTILYSE V.INF C/SOLV 50 MG x 2,actilyse,50mg,2,
+14,  METALYSE AMP.  LIOF 10 K 10 ML x 1,metalyse,10ml,1,amp
+15,  VARIDASA TABL  ORAL x 24,varidasa,,24,tabl
+16,  OFEV CAPS 150 MG x 60,ofev,150mg,60,caps
+17,  OFEV CAPS 100 MG x 60,ofev,100mg,60,caps
+18,  KITOSCELL L.P. TABL 600 MG x 90,kitoscell,600mg,90,tabl
+19,  SERETIDE AE.CD EV.2X1 250 Y x 120 (/25),seretide,250mcg,120,
+20,  SERETIDE AE.CD EV.2X1 50 Y x 120 (/25),seretide,50mcg,120,
+21,  PULMICORT TURBOHALER 100 Y x 200 (/DOS),pulmicort,100mcg,200,
+22,  ZENHALE AER. 100 Y x 120 (/5),zenhale,100mcg,120,
+23,  ZENHALE AER. 200 Y x 120 (/5),zenhale,200mcg,120,
+24,  ZENHALE AER. 50 Y x 120 (/5),zenhale,50mcg,120,
+25,  SYMBICORT POLVO P/INHL 160 Y x 60 (/4.5),symbicort,160mcg,60,polvo
+26,  SYMBICORT POLVO P/INHL 320 Y x 60 (/9),symbicort,320mcg,60,polvo
+27,  VANNAIR SPRAY 160Y x 120 /4.5,vannair,160mcg,120,spray
+28,  VANNAIR SPRAY 80.0Y x 120 /4.5,vannair,80.0mcg,120,spray
+29,  RELVARE AERO DOSIS 100 Y x 30 (/25),relvare,100mcg,30,dosis
+30,  RELVARE AERO DOSIS 200 Y x 30 (/25),relvare,200mcg,30,dosis
+31,  COMBIVENT AMP.P/NEBUL. 2.50 ML x 10,combivent,2.5ml,10,amp
+32,  VENTOLIN SOLN 5 MG 10 ML x 1 (/ML),ventolin,10ml,1,
+33,  VENTOLIN AMP. 0.50 MG 1 ML x 5,ventolin,0.5mg,5,amp
+34,  STERIVENT AMP.P/NEBUL. 2.50 ML x 10,sterivent,2.5ml,10,amp
+35,  ATROVENT SOLN INHAL. 250 Y 20 ML x 1 (/ML),atrovent,20ml,1,
+36,  ATROVENT A.NEB.MONODO 500 Y 2 ML x 10,atrovent,2ml,10,
+37,  ALUPENT AMP. 0.50 MG 1 ML x 5,alupent,0.5mg,5,amp
+38,  VINZA AMP.P/NEBUL. 2.50 ML x 10,vinza,2.5ml,10,amp
+39,  SPIRIVA CAPS HAN.REP 18 Y x 30,spiriva,18mcg,30,caps
+40,  SPIRIVA CAPS HANDIHA 18 Y x 30,spiriva,18mcg,30,caps
+41,  SPIRIVA CART RESP 0.226 MG 4 ML x 60,spiriva,4ml,60,
+42,  SPIRIVA CAPS HANDIHA 18 Y x 10,spiriva,18mcg,10,caps
+43,  SPIRIVA CAPS HAN.REP 18 Y x 20,spiriva,18mcg,20,caps
+44,  ATROVENT AERO DOSIS 20 Y 10 ML x 200 (/DOS),atrovent,20mcg,200,dosis
+45,  STRIVERDI RESPIMAT SOLN  INHLT 2.50 Y 4 ML x,striverdi,,,
+46,  ONBRIZE CAPS B.HAL 150 Y x 30,onbrize,150mcg,30,caps
+47,  ONBRIZE CAPS B.HAL 300 Y x 30,onbrize,300mcg,30,caps
+48,  SERETIDE AE.CD EV.2X1 125 Y x 120 (/25),seretide,125mcg,120,
+49,  SERETIDE AE.CD EV.2X1 250 Y x 120 (/25),seretide,250mcg,120,
+50,  SERETIDE AER.CD EVOH 125 Y x 120 (/25),seretide,125mcg,120,
+51,  SERETIDE AER.CD EVOH 250 Y x 120 (/25),seretide,250mcg,120,
+52,  SYMBICORT POLVO P/INHL 160 Y x 60 (/4.5),symbicort,160mcg,60,polvo
+53,  SYMBICORT POLVO P/INHL 320 Y x 60 (/9),symbicort,320mcg,60,polvo
+54,  SEEBRI BREEZHALER CAPS INH 50 Y x 30,seebri,50mcg,30,caps
+55,  EKLIRA GENUAIR POLVO P/INHL 332 Y x 60 (/DOS),eklira,332mcg,60,polvo
+56,  OSLIF CAPS 150 Y x 30,oslif,150mcg,30,caps
+57,  OSLIF CAPS 300 Y x 30,oslif,300mcg,30,caps
+58,  SPIOLTO RESPIMAT SOLN INHAL. 4 ML x 60,spiolto,4ml,60,
+59,  ULTIBRO BREEZHALER CAPS INHALT x 30,ultibro,,30,caps
+60,  ANORO PVO INH 25Y/ 55 Y x 30 (/DOS),anoro,55mcg,30,
+61,  DUAKLIR GENUAIR PVO INH DOS x 60,duaklir,,,
+62,  ULUNAR CAPS C/INHAL x 30,ulunar,,30,caps
+63,  TRIMBOW AERO DOSIS x 120,trimbow,,120,dosis
+64,  TRELEGY PVO INH ELLI x 30,trelegy,,,
+65,  MACRODANTINA CAPS 100 MG x 40,macrodantina,100mg,40,caps
+66,  MACRODANTINA CAPS 50 MG x 40,macrodantina,50mg,40,caps
+67,  FURADANTINA TABL 100 MG x 40,furadantina,100mg,40,tabl
+68,  MICTASOL TABL 1+1 x 16,mictasol,,16,tabl
+69,FOSFOCIL CAPS 500MG x 12,fosfocil,500mg,12,caps
+70,  VODELAN TABL 500 MG x 14 (/100),vodelan,500mg,14,tabl
+71,  NITROFURANT.GI KNR TABL 100 MG x 40,nitrofurant.gi,100mg,40,tabl
+72,  MACRODANTINA SUSP INF 25 MG 120 ML x 1 (/5ML),macrodantina,120ml,1,
+73,  BACTRIM COMPOSITUM SUSP 120 ML x 1,bactrim,120ml,1,
+74,  FOSFOCIL SUSP 250 MG 60 ML x 1 (/5ML),fosfocil,60ml,1,
+75,  SECOTEX TAB OCAS L.P 0.40 MG x 20,secotex,0.4mg,20,tab
+76,  SECOTEX TAB OCAS L.P 0.40 MG x 30,secotex,0.4mg,30,tab
+77,  XATRAL-OD TABL L.P. 10 MG x 28,xatral-od,10mg,28,tabl
+78,  XATRAL-OD TABL L.P. 10 MG x 14,xatral-od,10mg,14,tabl
+79,  AVODART CAPS 0.50 MG x 30,avodart,0.5mg,30,caps
+80,  AVODART CAPS 0.50 MG x 90,avodart,0.5mg,90,caps
+81,  COMBODART CAPS 0.50 MG x 30 (/0.4),combodart,0.5mg,30,caps
+82,  PROSCAR GRAG. 5 MG x 30,proscar,5mg,30,
+83,  ASOFLON CAPS L.P. 0.40 MG x 30,asoflon,0.4mg,30,caps
+84,  PROFIDOX TABL RECUB. 5 MG x 30 (/5),profidox,5mg,30,tabl
+85,  UPROSOL CAPS L.P. 0.40 MG x 20,uprosol,0.4mg,20,caps
+86,  TAMSULOSINA GI KEN CAPS L.P. 0.40 MG x 20,tamsulosina,0.4mg,20,caps
+87,  TAMSULOSINA GI ULT CAPS 0.40 MG x 20,tamsulosina,0.4mg,20,caps
+88,  TAMSULOSINA GI NOV CAPS 0.40 MG x 20,tamsulosina,0.4mg,20,caps
+89,  SIFROL TABL.ER 0.375 MG x 10,sifrol,0.375mg,10,tabl
+90,  SIFROL TABL.ER 0.75 MG x 10,sifrol,0.75mg,10,tabl
+91,  SIFROL TABL.ER 1.50 MG x 10,sifrol,1.5mg,10,tabl
+92,  SIFROL TABL.ER 1.50 MG x 30,sifrol,1.5mg,30,tabl
+93,  SIFROL TABL.ER 3 MG x 10,sifrol,3mg,10,tabl
+94,  SIFROL TABL.ER 3 MG x 30,sifrol,3mg,30,tabl
+95,  AZILECT TABL 1 MG x 10,azilect,1mg,10,tabl
+96,  AZILECT TABL 1 MG x 30,azilect,1mg,30,tabl
+97,  NUBRENZA PARCHE 2 MG x 7,nubrenza,2mg,7,
+98,  NUBRENZA PARCHE 4 MG x 14,nubrenza,4mg,14,
+99,  NUBRENZA PARCHE 6 MG x 14,nubrenza,6mg,14,
+100,  NUBRENZA PARCHE 8 MG x 14,nubrenza,8mg,14,
+101,  SIFROL TABL 0.25 MG x 30,sifrol,0.25mg,30,tabl
+102,  SIFROL TABL 0.50 MG x 30,sifrol,0.5mg,30,tabl
+103,  SIFROL TABL 1 MG x 30,sifrol,1mg,30,tabl
+104,  STALEVO TABL F.COATE 100 MG x 30,stalevo,100mg,30,tabl
+105,  STALEVO TABL F.COATE 150 MG x 30,stalevo,150mg,30,tabl
+106,  STALEVO TABL F.COATE 200 MG x 30,stalevo,200mg,30,tabl
+107,  STALEVO TABL F.COATE 50 MG x 30,stalevo,50mg,30,tabl
+108,  SINEMET TABL 250 MG x 30,sinemet,250mg,30,tabl
+109,SUNAM T 30 0.25MG,sunam,,,
+110,SUNAM T 30 0.50MG,sunam,,,
+111,SUNAM T 30 1.0MG (CAD),sunam,,,
+112,SUNAM T 30 1.50MG,sunam,,,
+113,  CLOISONE TABL 250 MG x 30 (/25),cloisone,250mg,30,tabl
+114,  FLURINOL TABL 20 MG x 10,flurinol,20mg,10,tabl
+115,  FLURINOL TABL 20 MG x 20,flurinol,20mg,20,tabl
+116,  AVIANT TABL 5 MG x 10,aviant,5mg,10,tabl
+117,  XUZAL TABL 5 MG x 20,xuzal,5mg,20,tabl
+118,  XUZAL TABL 5 MG x 30,xuzal,5mg,30,tabl
+119,  ALLEGRA TABL 120 MG x 10,allegra,120mg,10,tabl
+120,  ALLEGRA TABL 180 MG x 10,allegra,180mg,10,tabl
+121,  VIRLIX TABL REVEST 10 MG x 20,virlix,10mg,20,tabl
+122,  MOBICOX VIAL 15 MG 1.50 ML x 3,mobicox,15mg,3,vial
+123,  VOLTAREN AMP. 75 MG 3 ML x 5,voltaren,75mg,5,amp
+124,  EXEL AMP. 15 MG 1.50 ML x 3,exel,15mg,3,amp
+125,  MOBICOX TABL 15 MG x 10,mobicox,15mg,10,tabl
+126,  CELEBREX CAPS 200 MG x 10,celebrex,200mg,10,caps
+127,  EXEL CAPS 15 MG x 10,exel,15mg,10,caps
+128,  MELOSTERAL TABL 15 MG x 10,melosteral,15mg,10,tabl
+129,  ARCOXIA TABL 90 MG x 14,arcoxia,90mg,14,tabl
+130,  MOBICOX TABL 15 MG x 30,mobicox,15mg,30,tabl
+131,  CELEBREX CAPS 200 MG x 30,celebrex,200mg,30,caps
+132,  EXEL CAPS 15 MG x 20,exel,15mg,20,caps
+133,  ARCOXIA TABL F.COATE 90 MG x 28,arcoxia,90mg,28,tabl
+134,  MOBICOX TABL 7.50 MG x 14,mobicox,7.5mg,14,tabl
+135,  ARCOXIA TABL 60 MG x 14,arcoxia,60mg,14,tabl
+136,  ARCOXIA TABL F.COATE 30 MG x 14,arcoxia,30mg,14,tabl
+137,  MOBICOX TABL 7.50 MG x 7,mobicox,7.5mg,7,tabl
+138,  ARCOXIA TABL 60 MG x 7,arcoxia,60mg,7,tabl
+139,  TRAYENTA TABL 5 MG x 10,trayenta,5mg,10,tabl
+140,  JANUVIA TABL RECUBI 100 MG x 14,januvia,100mg,14,tabl
+141,  ONGLYZA TABL 5 MG x 14,onglyza,5mg,14,tabl
+142,  GALVUS TABL 50 MG x 28,galvus,50mg,28,tabl
+143,  FAZIQUE TABL 100 MG x 14,fazique,100mg,14,tabl
+144,  INCRESINA TABL 25 MG x 14,incresina,25mg,14,tabl
+145,  XILIARXS TABL 50 MG x 28,xiliarxs,50mg,28,tabl
+146,  TRAYENTA TABL 5 MG x 30,trayenta,5mg,30,tabl
+147,  JANUVIA TABL RECUBI 100 MG x 28,januvia,100mg,28,tabl
+148,  JANUVIA TABL RECUBI 50 MG x 28,januvia,50mg,28,tabl
+149,  JANUVIA TABL RECUBI 25 MG x 28,januvia,25mg,28,tabl
+150,  GALVUS TABL 50 MG x 56,galvus,50mg,56,tabl
+151,  ONGLYZA TABL 2.50 MG x 28,onglyza,2.5mg,28,tabl
+152,  ONGLYZA TABL 5 MG x 28,onglyza,5mg,28,tabl
+153,  JALRA TABL 50 MG x 56,jalra,50mg,56,tabl
+154,  FAZIQUE TABL 100 MG x 28,fazique,100mg,28,tabl
+155,  INCRESINA TABL 25 MG x 28,incresina,25mg,28,tabl
+156,  INCRESINA TABL 12.5 MG x 28,incresina,12.5mg,28,tabl
+157,  XILIARXS TABL 50 MG x 56,xiliarxs,50mg,56,tabl
+158,  TRAYENTA DUO TABL 1000 MG x 30 (/2.5),trayenta,1000mg,30,tabl
+159,  JANUMET XR T.REC 100MG/ 1000 MG x 28,janumet,1000mg,28,
+160,  KOMBIGLYZE XR TABL 1000 MG x 14 (/5),kombiglyze,1000mg,14,tabl
+161,  GALVUS-MET TABL 1 G x 30 (/50),galvus-met,1g,30,tabl
+162,  TRAYENTA DUO TABL 1000 MG x 60 (/2.5),trayenta,1000mg,60,tabl
+163,  JANUMET XR T.REC 50MG/ 1000 MG x 56,janumet,1000mg,56,
+164,  KOMBIGLYZE XR TABL 1000 MG x 28 (/5),kombiglyze,1000mg,28,tabl
+165,  KOMBIGLYZE XR TABL 1000 MG x 28 (/2.5),kombiglyze,1000mg,28,tabl
+166,  KOMBIGLYZE XR TABL 1000 MG x 56 (/2.5),kombiglyze,1000mg,56,tabl
+167,  JANUMET TABL RECUB 1 G x 56 (/50),janumet,1g,56,tabl
+168,  TRAYENTA DUO TABL 850 MG x 30 (/2.5),trayenta,850mg,30,tabl
+169,  JANUMET TABL RECUB 850 MG x 28 (/50),janumet,850mg,28,tabl
+170,  GALVUS-MET TABL 850 MG x 30 (/50),galvus-met,850mg,30,tabl
+171,  VELMETIA TABL RECUB 850 MG x 28 (/50),velmetia,850mg,28,tabl
+172,  TRAYENTA DUO TABL 850 MG x 60 (/2.5),trayenta,850mg,60,tabl
+173,  JANUMET TABL RECUB 850 MG x 56 (/50),janumet,850mg,56,tabl
+174,  GALVUS-MET TABL 850 MG x 60 (/50),galvus-met,850mg,60,tabl
+175,  VELMETIA TABL RECUB 850 MG x 56 (/50),velmetia,850mg,56,tabl
+176,  XILIARXS DUO TABL 50MG/ 850 MG x 60,xiliarxs,50mg,60,tabl
+177,  TRAYENTA DUO TABL 500 MG x 30 (/2.5),trayenta,500mg,30,tabl
+178,  JANUMET XR T.REC 50MG/ 500 MG x 28,janumet,500mg,28,
+179,  JANUMET TABL RECUB 500 MG x 28 (/50),janumet,500mg,28,tabl
+180,  GALVUS-MET TABL 500 MG x 30 (/50),galvus-met,500mg,30,tabl
+181,  VELMETIA TABL RECUB 500 MG x 28 (/50),velmetia,500mg,28,tabl
+182,  XILIARXS DUO TABL 50MG/ 500 MG x 30,xiliarxs,50mg,30,tabl
+183,  INCRESINA P TABL 15MG/ 25 MG x 30,incresina,15mg,30,tabl
+184,  INCRESINA P TABL 30MG/ 25 MG x 30,incresina,30mg,30,tabl
+185,  TRAYENTA DUO TABL 500 MG x 60 (/2.5),trayenta,500mg,60,tabl
+186,  JANUMET TABL RECUB 500 MG x 56 (/50),janumet,500mg,56,tabl
+187,  GALVUS-MET TABL 500 MG x 60 (/50),galvus-met,500mg,60,tabl
+188,  VELMETIA TABL RECUB 500 MG x 56 (/50),velmetia,500mg,56,tabl
+189,  XILIARXS DUO TABL 50MG/ 500 MG x 60,xiliarxs,50mg,60,tabl
+190,  JARDIANZ DUO TABL 850MG/ 12.5 MG x 60,jardianz,850mg,60,tabl
+191,  JARDIANZ DUO TABL 850MG/ 5 MG x 30,jardianz,850mg,30,tabl
+192,  JARDIANZ DUO TABL 850MG/ 5 MG x 60,jardianz,850mg,60,tabl
+193,  JARDIANZ DUO TABL 1000MG/ 12.5 MG x 60,jardianz,1000mg,60,tabl
+194,  XIGDUO XR TABL L.P. 1000 MG x 56 (/5),xigduo,1000mg,56,tabl
+195,  JARDIANZ DUO TABL 1000MG/ 12.5 MG x 30,jardianz,1000mg,30,tabl
+196,  XIGDUO XR TABL L.P. 1000 MG x 28 (/5),xigduo,1000mg,28,tabl
+197,  JARDIANZ DUO TABL 850MG/ 12.5 MG x 30,jardianz,850mg,30,tabl
+198,  XIGDUO XR TABL L.P. 1000 MG x 28 (/10),xigduo,1000mg,28,tabl
+199,  XIGDUO XR TABL L.P. 1000 MG x 14 (/10),xigduo,1000mg,14,tabl
+200,JARDIANZ DPP TABL RE 5MG/ 10 MG x 30,jardianz,5mg,30,tabl
+201,INVOKANA DUO 150 1000 MG TAB60   N,invokana,,,
+202,INVOKANA DUO 150 850 MG TAB60    N,invokana,,,
+203,  TRAYENTA DUO TABL 1000 MG x 30 (/2.5),trayenta,1000mg,30,tabl
+204,  JANUMET XR T.REC 100MG/ 1000 MG x 28,janumet,1000mg,28,
+205,  KOMBIGLYZE XR TABL 1000 MG x 14 (/5),kombiglyze,1000mg,14,tabl
+206,  GALVUS-MET TABL 1 G x 30 (/50),galvus-met,1g,30,tabl
+207,  TRAYENTA DUO TABL 1000 MG x 60 (/2.5),trayenta,1000mg,60,tabl
+208,  JANUMET XR T.REC 50MG/ 1000 MG x 56,janumet,1000mg,56,
+209,  KOMBIGLYZE XR TABL 1000 MG x 28 (/5),kombiglyze,1000mg,28,tabl
+210,  KOMBIGLYZE XR TABL 1000 MG x 28 (/2.5),kombiglyze,1000mg,28,tabl
+211,  KOMBIGLYZE XR TABL 1000 MG x 56 (/2.5),kombiglyze,1000mg,56,tabl
+212,  JANUMET TABL RECUB 1 G x 56 (/50),janumet,1g,56,tabl
+213,  TRAYENTA DUO TABL 850 MG x 30 (/2.5),trayenta,850mg,30,tabl
+214,  JANUMET TABL RECUB 850 MG x 28 (/50),janumet,850mg,28,tabl
+215,  GALVUS-MET TABL 850 MG x 30 (/50),galvus-met,850mg,30,tabl
+216,  VELMETIA TABL RECUB 850 MG x 28 (/50),velmetia,850mg,28,tabl
+217,  TRAYENTA DUO TABL 850 MG x 60 (/2.5),trayenta,850mg,60,tabl
+218,  JANUMET TABL RECUB 850 MG x 56 (/50),janumet,850mg,56,tabl
+219,  GALVUS-MET TABL 850 MG x 60 (/50),galvus-met,850mg,60,tabl
+220,  VELMETIA TABL RECUB 850 MG x 56 (/50),velmetia,850mg,56,tabl
+221,  XILIARXS DUO TABL 50MG/ 850 MG x 60,xiliarxs,50mg,60,tabl
+222,  TRAYENTA DUO TABL 500 MG x 30 (/2.5),trayenta,500mg,30,tabl
+223,  JANUMET XR T.REC 50MG/ 500 MG x 28,janumet,500mg,28,
+224,  JANUMET TABL RECUB 500 MG x 28 (/50),janumet,500mg,28,tabl
+225,  GALVUS-MET TABL 500 MG x 30 (/50),galvus-met,500mg,30,tabl
+226,  VELMETIA TABL RECUB 500 MG x 28 (/50),velmetia,500mg,28,tabl
+227,  XILIARXS DUO TABL 50MG/ 500 MG x 30,xiliarxs,50mg,30,tabl
+228,  INCRESINA P TABL 15MG/ 25 MG x 30,incresina,15mg,30,tabl
+229,  INCRESINA P TABL 30MG/ 25 MG x 30,incresina,30mg,30,tabl
+230,  TRAYENTA DUO TABL 500 MG x 60 (/2.5),trayenta,500mg,60,tabl
+231,  JANUMET TABL RECUB 500 MG x 56 (/50),janumet,500mg,56,tabl
+232,  GALVUS-MET TABL 500 MG x 60 (/50),galvus-met,500mg,60,tabl
+233,  VELMETIA TABL RECUB 500 MG x 56 (/50),velmetia,500mg,56,tabl
+234,  XILIARXS DUO TABL 50MG/ 500 MG x 60,xiliarxs,50mg,60,tabl
+235,TRULICITY PLUMA PRELL 1.50MG 0.5ML x 2,trulicity,0.5ml,2,
+236,TRULICITY PLUMA PRELL 0.75MG 0.5ML x 2,trulicity,0.5ml,2,
+237,OZEMPIC PL P .25&.5 1.5ML x 1,ozempic,1.5ml,1,
+238,OZEMPIC PLUMA PRECAR 1.00MG 3ML x 1,ozempic,3ml,1,
+239,  CATAPRESAN TABL 0.10 MG x 30,catapresan,0.1mg,30,tabl
+240,  CARDURA TABL 2 MG x 20,cardura,2mg,20,tabl
+241,  CARDURA TABL 4 MG x 20,cardura,4mg,20,tabl
+242,  MICARDIS TABL 40 MG x 28,micardis,40mg,28,tabl
+243,  EDARBI TABL 40 MG x 28,edarbi,40mg,28,tabl
+244,  LOSARTAN GI KEN TABL RECUBI 50 MG x 30,losartan,50mg,30,tabl
+245,  ATACAND TABL 8 MG x 28,atacand,8mg,28,tabl
+246,  ALMETEC TABL 20 MG x 28,almetec,20mg,28,tabl
+247,  APROVEL TABL 150 MG x 28,aprovel,150mg,28,tabl
+248,  AVAPRO TABL 150 MG x 28,avapro,150mg,28,tabl
+249,  COZAAR TABL RECUB. 50 MG x 30,cozaar,50mg,30,tabl
+250,  DIOVAN GRAG. 80 MG x 30,diovan,80mg,30,
+251,  LEGIONIS TABL 40 MG x 28,legionis,40mg,28,tabl
+252,  MICARDIS TABL 80 MG x 14,micardis,80mg,14,tabl
+253,  EDARBI TABL 80 MG x 14,edarbi,80mg,14,tabl
+254,  ATACAND TABL 32 MG x 14,atacand,32mg,14,tabl
+255,  ATACAND TABL 16 MG x 14,atacand,16mg,14,tabl
+256,  APROVEL TABL 300 MG x 14,aprovel,300mg,14,tabl
+257,  AVAPRO TABL 300 MG x 14,avapro,300mg,14,tabl
+258,  COZAAR TABL RECUB. 100 MG x 15,cozaar,100mg,15,tabl
+259,  DIOVAN GRAG. 160 MG x 14,diovan,160mg,14,
+260,  TELARTEQ TABL 80 MG x 14,telarteq,80mg,14,tabl
+261,  TRANSENDIS TABL 80 MG x 14,transendis,80mg,14,tabl
+262,  MICARDIS TABL 80 MG x 28,micardis,80mg,28,tabl
+263,  EDARBI TABL 80 MG x 28,edarbi,80mg,28,tabl
+264,  ATACAND TABL 16 MG x 28,atacand,16mg,28,tabl
+265,  ALMETEC TABL 40 MG x 28,almetec,40mg,28,tabl
+266,  APROVEL TABL 300 MG x 28,aprovel,300mg,28,tabl
+267,  AVAPRO TABL 300 MG x 28,avapro,300mg,28,tabl
+268,  COZAAR TABL RECUB. 100 MG x 30,cozaar,100mg,30,tabl
+269,  DIOVAN GRAG. 80 MG x 30,diovan,80mg,30,
+270,  TELARTEQ TABL 80 MG x 30,telarteq,80mg,30,tabl
+271,  MICARDIS PLUS TABL 25 MG x 14 (/80),micardis,25mg,14,tabl
+272,  ALMETEC-CO TABL 40 MG x 14 (/25),almetec-co,40mg,14,tabl
+273,  AVALIDE TABL 25 MG x 14 (/300),avalide,25mg,14,tabl
+274,  CO-DIOVAN GRAG. 25 MG x 14 (/320),co-diovan,25mg,14,
+275,  HYZAAR TABL F.COATE 25 MG x 15 (/100),hyzaar,25mg,15,tabl
+276,  COAPROVEL TABL 25 MG x 28 (/300),coaprovel,25mg,28,tabl
+277,  TELARTEQ-URTI TABL 25 MG x 14 (/80),telarteq-urti,25mg,14,tabl
+278,  MICARDIS PLUS TABL 80 MG x 28 (/12),micardis,80mg,28,tabl
+279,  EDARBI CLD TABL 80 MG x 28 (/12.),edarbi,80mg,28,tabl
+280,  ALMETEC-CO TABL 40 MG x 28 (/12),almetec-co,40mg,28,tabl
+281,  AVALIDE TABL 300 MG x 28 (/12),avalide,300mg,28,tabl
+282,  COAPROVEL TABL 300 MG x 28 (/12),coaprovel,300mg,28,tabl
+283,  CO-DIOVAN GRAG. 12.5 MG x 30 (/320),co-diovan,12.5mg,30,
+284,  LOSAR+HIDRO GI ULT TABL 50 MG x 30 (/12.),losar+hidro,50mg,30,tabl
+285,  TELARTEQ-URTI TABL 12.5 MG x 30 (/80),telarteq-urti,12.5mg,30,tabl
+286,  EDARBI CLD TABL 40 MG x 28 (/12.),edarbi,40mg,28,tabl
+287,  CO-DIOVAN GRAG. 12.5 MG x 30 (/160),co-diovan,12.5mg,30,
+288,  MICARDIS PLUS TABL 80 MG x 14 (/12),micardis,80mg,14,tabl
+289,  EDARBI CLD TABL 80 MG x 14 (/12.),edarbi,80mg,14,tabl
+290,  ALMETEC-CO TABL 40 MG x 14 (/12),almetec-co,40mg,14,tabl
+291,  OPENVAS CO TABL RECUB. 40 MG x 14 (/12),openvas,40mg,14,tabl
+292,  AVALIDE TABL 300 MG x 14 (/12),avalide,300mg,14,tabl
+293,  COAPROVEL TABL 25 MG x 14 (/300),coaprovel,25mg,14,tabl
+294,  COAPROVEL TABL 300 MG x 14 (/12),coaprovel,300mg,14,tabl
+295,CO-DIOVAN TABL REVEST 12.5MG x 28 /80,co-diovan,12.5mg,28,tabl
+296,  TELARTEQ-URTI TABL 12.5 MG x 14 (/80),telarteq-urti,12.5mg,14,tabl
+297,  MICARDIS DUO TABL 40 MG x 28 (/10),micardis,40mg,28,tabl
+298,  EXFORGE TABL RECUBI 10 MG x 28 (/160),exforge,10mg,28,tabl
+299,  EXFORGE TABL RECUBI 10 MG x 14 (/160),exforge,10mg,14,tabl
+300,  ALMETEC-TRI TABL 5/12.5 40 MG x 28,almetec-tri,40mg,28,tabl
+301,  MICARDIS DUO TABL 40 MG x 28 (/5),micardis,40mg,28,tabl
+302,  EXFORGE TABL RECUBI 5 MG x 14 (/160),exforge,5mg,14,tabl
+303,  EXFORGE TABL RECUBI 5 MG x 28 (/160),exforge,5mg,28,tabl
+304,  APROVASC TABL 150 MG x 14 (/5),aprovasc,150mg,14,tabl
+305,  APROVASC TABL 150 MG x 28 (/5),aprovasc,150mg,28,tabl
+306,  BICARTIAL CAPS 2.50 MG x 14 (/50),bicartial,2.5mg,14,caps
+307,  DUOALMETEC TABL 20 MG x 28 (/5),duoalmetec,20mg,28,tabl
+308,  DUOALMETEC TABL 20 MG x 14 (/5),duoalmetec,20mg,14,tabl
+309,  EXFORGE HCT TA.160/12.5/ 5 MG x 28,exforge,5mg,28,
+310,  ALMETEC-TRI TABL 5/12.5 40 MG x 14,almetec-tri,40mg,14,tabl
+311,  MICARDIS DUO TABL 80 MG x 28 (/10),micardis,80mg,28,tabl
+312,  EXFORGE TABL RECUBI 10 MG x 14 (/320),exforge,10mg,14,tabl
+313,  EXFORGE TABL RECUBI 10 MG x 28 (/320),exforge,10mg,28,tabl
+314,  APROVASC TABL 300 MG x 14 (/10),aprovasc,300mg,14,tabl
+315,  APROVASC TABL 300 MG x 28 (/10),aprovasc,300mg,28,tabl
+316,  BICARTIAL CAPS 5 MG x 14 (/100),bicartial,5mg,14,caps
+317,  MAXOPRESS TABL 40 MG x 14 (/10),maxopress,40mg,14,tabl
+318,  DUOALMETEC TABL 40 MG x 14 (/10),duoalmetec,40mg,14,tabl
+319,  EXFORGE HCT TA.320/25/ 10 MG x 28,exforge,10mg,28,
+320,  ALMETEC-TRI TABL 5/12.5 20 MG x 28,almetec-tri,20mg,28,tabl
+321,  MICARDIS DUO TABL 80 MG x 28 (/5),micardis,80mg,28,tabl
+322,  EXFORGE TABL RECUBI 5 MG x 28 (/160),exforge,5mg,28,tabl
+323,  EXFORGE TABL RECUBI 5 MG x 28 (/320),exforge,5mg,28,tabl
+324,  APROVASC TABL 300 MG x 14 (/5),aprovasc,300mg,14,tabl
+325,  APROVASC TABL 300 MG x 28 (/5),aprovasc,300mg,28,tabl
+326,  MAXOPRESS TABL 40 MG x 14 (/5),maxopress,40mg,14,tabl
+327,  DUOALMETEC TABL 40 MG x 28 (/5),duoalmetec,40mg,28,tabl
+328,  DUOALMETEC TABL 40 MG x 14 (/5),duoalmetec,40mg,14,tabl
+329,  ALMETEC-TRI TABL 5/12.5 20 MG x 14,almetec-tri,20mg,14,tabl
+330,PRADAXAR 110 MG DUAL PACK,pradaxar,,,
+331,PRADAXAR 75 MG DUAL PACK,pradaxar,,,
+332,PRADAXAR 150 MG DUAL PACK,pradaxar,,,
+333,"PRADAXAR, CAPSU/ 60/110MG BLI MX","pradaxar,",,,
+334,"PRADAXAR, CAPSU/ 60/75MG BLI MX","pradaxar,",,,
+335,"PRADAXAR, CAPSU/ 60/150MG BLI MX","pradaxar,",,,
+336,  XARELTO TABL F.COATE 10 MG x 30,xarelto,10mg,30,tabl
+337, ELICUIS TABL F.COATE 5 MG x 60,elicuis,5mg,60,tabl
+338,  ELICUIS TABL F.COATE 2.50 MG x 60,elicuis,2.5mg,60,tabl
+339, CLEXANE JER.PR.HYPAK 20 MG 0.20 ML x 2,clexane,0.2ml,2,
+340, CLEXANE JER.PR.HYPAK 40 MG 0.40 ML x 2,clexane,0.4ml,2,
+341, CLEXANE JER.PR.HYPAK 60 MG 0.60 ML x 2,clexane,0.6ml,2,
+342, CLEXANE JER.PR.HYPAK 80 MG 0.80 ML x 2,clexane,0.8ml,2,
+343, COUMADIN TABL 2.50 MG x 30,coumadin,2.5mg,30,tabl
+344, COUMADIN TABL 5 MG x 30,coumadin,5mg,30,tabl
+345, SINTROM TABL 4 MG x 30,sintrom,4mg,30,tabl
+346, FRAXIPARINE JER.PR.HYPAK 2850 IU 0.30 ML x 2,fraxiparine,0.3ml,2,
+347, FRAXIPARINE JER.PR.HYPAK 3800 IU 0.40 ML x 2,fraxiparine,0.4ml,2,
+348, FRAXIPARINE JER.PR.HYPAK 5700 IU 0.60 ML x 2,fraxiparine,0.6ml,2,
+349,  XARELTO TABL F.COATE 2.50 MG x 56,xarelto,2.5mg,56,tabl
+350,  PRADAXAR CAPS 150 MG x 30,pradaxar,150mg,30,caps
+351,  PRADAXAR CAPS 110 MG x 30,pradaxar,110mg,30,caps
+352,  PRADAXAR CAPS 75 MG x 30,pradaxar,75mg,30,caps
+353,  XARELTO TABL F.COATE 10 MG x 10,xarelto,10mg,10,tabl
+354,  XARELTO TABL F.COATE 15 MG x 28,xarelto,15mg,28,tabl
+355,  XARELTO TABL F.COATE 20 MG x 28,xarelto,20mg,28,tabl
+356,  ELICUIS TABL F.COATE 5 MG x 20,elicuis,5mg,20,tabl
+357,  ELICUIS TABL F.COATE 2.50 MG x 20,elicuis,2.5mg,20,tabl

@@ -42,13 +42,43 @@ def send_email(df):
 
 def generate_df(tipo:str)->str:
     """ """
+    def homologar(df):
+        med = df['medicamento']
+        peso = df['peso']
+        pres = df['presentacion']
+        ff = df['forma_farmacologica']
+
+        if not peso or not pres:
+            if peso:
+                sintetic_homolog = med + " " + ff + " " + peso
+                return sintetic_homolog.replace("dosis", "").replace("mcg", "Y").strip().upper()
+            
+            else:
+                return ""
+        
+        df_c = dfm[ (dfm['name']==med) & (dfm['peso']==peso) & (dfm['presentacion']==pres) ]
+        coinc = len(df_c)
+        if coinc > 0:
+            return str(df_c['Medicamento'].iloc[0]).strip()
+        sintetic_homolog = med + " " + ff + " " + peso + " x " + pres
+        return sintetic_homolog.replace("dosis", "").replace("mcg", "Y").strip().upper()
+
     today = date.today().strftime("%d/%m/%Y")
     today_datetime = date.today()
     df = pd.read_csv('precios.csv')
-    
-    if tipo == "normal":
-        day_df = df[df['scrapping_day'] == today].copy()
+    df.fillna("", inplace=True)
+    dfm  = pd.read_csv('medicamentos_base_homologada.csv')
 
+    if tipo == "normal":
+        #Selecciona lo recolectado en el día
+        df = df[df['scrapping_day'] == today].copy()
+        
+        #Homologa la BDD
+        df['descripcion'] = df.apply(homologar, axis=1)
+
+        #Ignora medicamentos que no se pudieron homolgar ni sinteticamente
+        day_df = df[df['descripcion'] != ''].copy()
+        
     elif tipo == "lunes":
         sab_dom_lun = [
                 today_datetime.strftime("%d/%m/%Y"),
