@@ -43,25 +43,25 @@ def send_email(df):
 def generate_df(tipo:str)->str:
     """ """
     def homologar(df):
+        desc =  df['descripcion']
         med = df['medicamento']
         peso = df['peso']
-        pres = df['presentacion']
+        pres =df['presentacion']
         ff = df['forma_farmacologica']
-
-        if not peso or not pres:
-            if peso:
-                sintetic_homolog = med + " " + ff + " " + peso
-                return sintetic_homolog.replace("dosis", "").replace("mcg", "Y").strip().upper()
-            
-            else:
-                return ""
+        marca = str(df['marca'])
         
+        if med not in desc.lower() and med not in marca.lower():
+            return ""
+        if not peso and not pres:
+            return ""
+
+        # perfect match
         df_c = dfm[ (dfm['name']==med) & (dfm['peso']==peso) & (dfm['presentacion']==pres) ]
         coinc = len(df_c)
         if coinc > 0:
             return str(df_c['Medicamento'].iloc[0]).strip()
-        sintetic_homolog = med + " " + ff + " " + peso + " x " + pres
-        return sintetic_homolog.replace("dosis", "").replace("mcg", "Y").strip().upper()
+        
+        return str(desc).strip().upper()
 
     today = date.today().strftime("%d/%m/%Y")
     today_datetime = date.today()
