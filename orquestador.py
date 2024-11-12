@@ -77,7 +77,9 @@ def generate_df(tipo:str)->str:
         df['descripcion'] = df.apply(homologar, axis=1)
 
         #Ignora medicamentos que no se pudieron homolgar ni sinteticamente
-        day_df = df[df['descripcion'] != ''].copy()
+        day_df = df[['descripcion', 'marca', 'precio', 'max_price',
+                    'precio descontado', 'descuento', 'promotion', 'fuente',
+                    'scrapping_day', 'detail_url']][df['descripcion'] != ''].copy()
         
     elif tipo == "lunes":
         sab_dom_lun = [
